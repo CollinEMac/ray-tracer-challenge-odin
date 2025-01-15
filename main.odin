@@ -19,3 +19,8 @@ vector :: proc(x, y, z: f32) -> Tuple {
 is_vector :: proc(tuple: Tuple) -> bool {
     return tuple.w == 0.0
 }
+
+equals :: proc(tuple1: Tuple, tuple2: Tuple) -> bool {
+    return tuple1 == tuple2
+}
+

@@ -61,3 +61,12 @@ vector_proc_creates_vector :: proc(t: ^testing.T) {
     )
 }
 
+@(test)
+equals_proc_validates_equality :: proc(t: ^testing.T) {
+    a := main.Tuple{ 4.0, -4.0, 3.0, 1.0 }
+    b := main.Tuple{ 4.0, -4.0, 100.0, 1.0 }
+
+    testing.expect_value(t, main.equals(a,b), false)
+    testing.expect(t, main.equals(a,main.Tuple{ 4.0, -4.0, 3.0, 1.0 }))
+}
+
