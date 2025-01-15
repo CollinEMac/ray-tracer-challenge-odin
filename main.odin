@@ -36,3 +36,6 @@ negate :: proc(tuple: Tuple) -> Tuple {
     return Tuple{ -tuple.x, -tuple.y, -tuple.z, -tuple.w }
 }
 
+mult :: proc(n: f32, tuple: Tuple) -> Tuple {
+    return Tuple{ n*tuple.x, n*tuple.y, n*tuple.z, n*tuple.w }
+}
