@@ -110,3 +110,9 @@ subtract_vector_from_zero_vector :: proc(t: ^testing.T) {
     testing.expect_value(t, main.subtract(zero, v), main.vector(-1, 2, -3))
 }
 
+@(test)
+negate_a_vector :: proc(t: ^testing.T) {
+    a := main.Tuple{ 1, -2, 3, -4 }
+    testing.expect_value(t, main.negate(a), main.Tuple{ -1, 2, -3, 4 })
+}
+
