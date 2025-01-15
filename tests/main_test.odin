@@ -17,3 +17,18 @@ tuple_is_a_point :: proc(t: ^testing.T) {
         false
     )
 }
+
+@(test)
+tuple_is_vector :: proc(t: ^testing.T) {
+    a := main.Tuple{ 4.3, -4.2, 3.1, 0.0 }
+    testing.expect(
+        t,
+        main.is_vector(a),
+        "Tuple with w=0.0 is not evaluated as Vector!"
+    )
+    testing.expect_value(
+        t,
+        main.is_point(a),
+        false
+    )
+}

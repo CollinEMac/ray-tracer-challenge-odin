@@ -17,5 +17,5 @@ vector :: proc(x, y, z: f32) -> Tuple {
 }
 
 is_vector :: proc(tuple: Tuple) -> bool {
-    return tuple.x == 0.0
+    return tuple.w == 0.0
 }
