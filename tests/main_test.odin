@@ -40,3 +40,24 @@ tuple_is_vector :: proc(t: ^testing.T) {
         false
     )
 }
+
+@(test)
+point_proc_creates_point :: proc(t: ^testing.T) {
+    p := main.point(4, -4, 3)
+    testing.expect_value(
+        t,
+        p,
+        main.Tuple{ 4.0, -4.0, 3.0, 1.0 }
+    )
+}
+
+@(test)
+vector_proc_creates_vector :: proc(t: ^testing.T) {
+    p := main.vector(4, -4, 3)
+    testing.expect_value(
+        t,
+        p,
+        main.Tuple{ 4.0, -4.0, 3.0, 0.0 }
+    )
+}
+
