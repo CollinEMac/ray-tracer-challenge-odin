@@ -79,9 +79,27 @@ add_tuples :: proc(t: ^testing.T) {
 }
 
 @(test)
-subtract_tuples :: proc(t: ^testing.T) {
+subtract_point :: proc(t: ^testing.T) {
     p1 := main.point(3, 2, 1)
     p2 := main.point(5, 6, 7)
 
     testing.expect_value(t, main.subtract(p1, p2), main.vector(-2, -4, -6))
 }
+
+@(test)
+subtract_vector_from_point :: proc(t: ^testing.T) {
+    p := main.point(3, 2, 1)
+    v := main.vector(5, 6, 7)
+
+    testing.expect_value(t, main.subtract(p, v), main.point(-2, -4, -6))
+}
+
+@(test)
+subtract_vector :: proc(t: ^testing.T) {
+    v1 := main.vector(3, 2, 1)
+    v2 := main.vector(5, 6, 7)
+
+    testing.expect_value(t, main.subtract(v1, v2), main.vector(-2, -4, -6))
+}
+
+
