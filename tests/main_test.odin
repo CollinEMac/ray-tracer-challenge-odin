@@ -119,12 +119,19 @@ negate_a_vector :: proc(t: ^testing.T) {
 @(test)
 multiply_tuple_by_scalar :: proc(t: ^testing.T) {
     a := main.Tuple{ 1, -2, 3, -4 }
-    testing.expect_value(t, main.mult(3.5, a), main.Tuple{ 3.5, -7, 10.5, -14 })
+    testing.expect_value(t, main.mult(a, 3.5), main.Tuple{ 3.5, -7, 10.5, -14 })
 }
 
 @(test)
 multiply_tuple_by_fraction :: proc(t: ^testing.T) {
     a := main.Tuple{ 1, -2, 3, -4 }
-    testing.expect_value(t, main.mult(0.5, a), main.Tuple{ 0.5, -1, 1.5, -2 })
+    testing.expect_value(t, main.mult(a, 0.5), main.Tuple{ 0.5, -1, 1.5, -2 })
 }
+
+@(test)
+divide_tuple_by_scalar :: proc(t: ^testing.T) {
+    a := main.Tuple{ 1, -2, 3, -4 }
+    testing.expect_value(t, main.div(a, 2), main.Tuple{ 0.5, -1, 1.5, -2 })
+}
+
 
