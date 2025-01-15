@@ -24,3 +24,7 @@ equals :: proc(tuple1: Tuple, tuple2: Tuple) -> bool {
     return tuple1 == tuple2
 }
 
+add :: proc(a1: Tuple, a2: Tuple) -> Tuple {
+    return Tuple{ a1.x + a2.x, a1.y + a2.y, a1.z + a2.z, a1.w + a2.w }
+}
+

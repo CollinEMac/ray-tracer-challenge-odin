@@ -70,3 +70,10 @@ equals_proc_validates_equality :: proc(t: ^testing.T) {
     testing.expect(t, main.equals(a,main.Tuple{ 4.0, -4.0, 3.0, 1.0 }))
 }
 
+@(test)
+add_tuples :: proc(t: ^testing.T) {
+    a1 := main.Tuple{ 3, -2, 5, 1 }
+    a2 := main.Tuple{ -2, 3, 1, 0 }
+
+    testing.expect_value(t, main.add(a1, a2), main.Tuple{ 1, 1, 6, 1 })
+}
