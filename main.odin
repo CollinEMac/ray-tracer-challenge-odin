@@ -28,3 +28,8 @@ add :: proc(a1: Tuple, a2: Tuple) -> Tuple {
     return Tuple{ a1.x + a2.x, a1.y + a2.y, a1.z + a2.z, a1.w + a2.w }
 }
 
+subtract :: proc(a1: Tuple, a2: Tuple) -> Tuple {
+    return Tuple{ a1.x - a2.x, a1.y - a2.y, a1.z - a2.z, a1.w - a2.w }
+}
+
+
