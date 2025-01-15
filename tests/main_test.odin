@@ -102,4 +102,11 @@ subtract_vector :: proc(t: ^testing.T) {
     testing.expect_value(t, main.subtract(v1, v2), main.vector(-2, -4, -6))
 }
 
+@(test)
+subtract_vector_from_zero_vector :: proc(t: ^testing.T) {
+    zero := main.vector(0, 0, 0)
+    v := main.vector (1, -2, 3)
+
+    testing.expect_value(t, main.subtract(zero, v), main.vector(-1, 2, -3))
+}
 
