@@ -4,6 +4,10 @@ import "core:testing"
 import "core:math"
 import main ".."
 
+approx_equal :: proc(a, b: f32) -> bool {
+    return math.abs(a - b) <= math.F32_EPSILON
+}
+
 @(test)
 tuple_is_a_point :: proc(t: ^testing.T) {
     a := main.Tuple{ 4.3, -4.2, 3.1, 1.0 }
@@ -153,3 +157,19 @@ get_mag_of_vector :: proc(t: ^testing.T) {
     testing.expect_value(t, main.mag(v), math.sqrt_f32(14))
 }
 
+@(test)
+normalize_vector :: proc(t: ^testing.T) {
+    v := main.vector(4, 0, 0)
+    testing.expect_value(t, main.norm(v), main.vector(1, 0, 0))
+
+    v = main.vector(1, 2, 3)
+    sqrt_14 := math.sqrt_f32(14)
+    testing.expect_value(t, main.norm(v), main.vector(1/sqrt_14, 2/sqrt_14, 3/sqrt_14))
+}
+
+@(test)
+get_mag_of_normalized_vector :: proc(t: ^testing.T) {
+    v := main.vector(1, 2, 3)
+    norm := main.norm(v)
+    testing.expect(t, approx_equal(main.mag(norm), 1))
+}

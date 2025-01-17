@@ -56,3 +56,14 @@ mag :: proc(t: Tuple) -> f32 {
         math.pow(t.z, 2) +
         math.pow(t.w, 2))
 }
+
+norm :: proc(t: Tuple) -> Tuple {
+    // normalize a vector
+    magnitude := mag(t)
+    return Tuple {
+        t.x / magnitude,
+        t.y / magnitude,
+        t.z / magnitude,
+        t.w / magnitude
+    }
+}
