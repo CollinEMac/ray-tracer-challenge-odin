@@ -1,5 +1,7 @@
 package main
 
+import "core:math"
+
 Tuple :: struct {
     x, y, z, w: f32,
 }
@@ -37,10 +39,20 @@ negate :: proc(tuple: Tuple) -> Tuple {
 }
 
 mult :: proc(tuple: Tuple, n: f32) -> Tuple {
+    // multiply
     return Tuple{ n*tuple.x, n*tuple.y, n*tuple.z, n*tuple.w }
 }
 
 div :: proc(tuple: Tuple, n: f32) -> Tuple {
+    // division
     return Tuple{ tuple.x/n, tuple.y/n, tuple.z/n, tuple.w/n }
 }
 
+mag :: proc(t: Tuple) -> f32 {
+    // magnitude of a vector
+    return math.sqrt(
+        math.pow(t.x, 2) +
+        math.pow(t.y, 2) +
+        math.pow(t.z, 2) +
+        math.pow(t.w, 2))
+}

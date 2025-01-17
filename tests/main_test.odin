@@ -1,6 +1,7 @@
 package tests
 
 import "core:testing"
+import "core:math"
 import main ".."
 
 @(test)
@@ -134,4 +135,21 @@ divide_tuple_by_scalar :: proc(t: ^testing.T) {
     testing.expect_value(t, main.div(a, 2), main.Tuple{ 0.5, -1, 1.5, -2 })
 }
 
+@(test)
+get_mag_of_vector :: proc(t: ^testing.T) {
+    v := main.vector(1, 0, 0)
+    testing.expect_value(t, main.mag(v), 1)
+
+    v = main.vector(0, 1, 0)
+    testing.expect_value(t, main.mag(v), 1)
+
+    v = main.vector(0, 0, 1)
+    testing.expect_value(t, main.mag(v), 1)
+
+    v = main.vector(1, 2, 3)
+    testing.expect_value(t, main.mag(v), math.sqrt_f32(14))
+
+    v = main.vector(-1, -2, -3)
+    testing.expect_value(t, main.mag(v), math.sqrt_f32(14))
+}
 
