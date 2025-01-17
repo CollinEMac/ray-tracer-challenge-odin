@@ -1,6 +1,21 @@
 package main
 
 import "core:math"
+import "core:fmt"
+
+main :: proc() {
+    // using this as sort of a playground for now
+    p := Projectile { point(0, 1, 0), norm(vector(1, 1, 0)) }
+    e := Environment { vector(0, -0.1, 0), vector(-0.01, 0, 0) }
+
+    i := 0
+    for i < 20 {
+        p = tick(e, p)
+        fmt.printf("Position: %f ", p.position.y)
+        i += 1
+    }
+}
+
 
 Tuple :: struct {
     x, y, z, w: f32,
