@@ -173,3 +173,11 @@ get_mag_of_normalized_vector :: proc(t: ^testing.T) {
     norm := main.norm(v)
     testing.expect(t, approx_equal(main.mag(norm), 1))
 }
+
+@(test)
+get_dot_product :: proc(t: ^testing.T) {
+    v1 := main.vector(1, 2, 3)
+    v2 := main.vector(2, 3, 4)
+    testing.expect_value(t, main.dot(v1, v2), 20)
+}
+

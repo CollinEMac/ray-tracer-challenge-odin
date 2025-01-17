@@ -67,3 +67,12 @@ norm :: proc(t: Tuple) -> Tuple {
         t.w / magnitude
     }
 }
+
+dot :: proc (a, b: Tuple) -> f32 {
+    // The dot product of two vectors
+    return a.x * b.x +
+        a.y * b.y +
+        a.z * b.z +
+        a.w * b.w
+}
+
