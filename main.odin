@@ -68,7 +68,7 @@ norm :: proc(t: Tuple) -> Tuple {
     }
 }
 
-dot :: proc (a, b: Tuple) -> f32 {
+dot :: proc(a, b: Tuple) -> f32 {
     // The dot product of two vectors
     return a.x * b.x +
         a.y * b.y +
@@ -76,3 +76,11 @@ dot :: proc (a, b: Tuple) -> f32 {
         a.w * b.w
 }
 
+cross :: proc(a, b: Tuple) -> Tuple {
+    // The cross product of two vectors
+    return vector(
+        a.y * b.z - a.z * b.y,
+        a.z * b.x - a.x * b.z,
+        a.x * b.y - a.y * b.x
+    )
+}

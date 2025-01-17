@@ -181,3 +181,11 @@ get_dot_product :: proc(t: ^testing.T) {
     testing.expect_value(t, main.dot(v1, v2), 20)
 }
 
+@(test)
+get_cross_product :: proc(t: ^testing.T) {
+    v1 := main.vector(1, 2, 3)
+    v2 := main.vector(2, 3, 4)
+    testing.expect_value(t, main.cross(v1, v2), main.vector(-1, 2, -1))
+    testing.expect_value(t, main.cross(v2, v1), main.vector(1, -2, 1))
+}
+
