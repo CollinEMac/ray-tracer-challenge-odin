@@ -45,5 +45,5 @@ multiply_colors :: proc(t:^testing.T) {
     c1 := main.color(1, 0.2, 0.4)
     c2 := main.color(0.9, 1, 0.1)
 
-    testing.expect(t, deeply_approx_equal(main.mult_colors(c1, c2), main.color(0.9, 0.2, 0.04)))
+    testing.expect(t, deeply_approx_equal(main.hadamard(c1, c2), main.color(0.9, 0.2, 0.04)))
 }
