@@ -8,6 +8,15 @@ approx_equal :: proc(a, b: f32) -> bool {
     return math.abs(a - b) <= math.F32_EPSILON
 }
 
+deeply_approx_equal :: proc (a, b: main.Tuple3) -> bool {
+    if approx_equal(a.x, b.x) &&
+        approx_equal(a.y, b.y) &&
+        approx_equal(a.z, b.z) {
+        return true
+    }
+    return false
+}
+
 @(test)
 tuple_is_a_point :: proc(t: ^testing.T) {
     a := main.Tuple4{ 4.3, -4.2, 3.1, 1.0 }

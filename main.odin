@@ -89,10 +89,14 @@ mult3 :: proc(tuple: Tuple3, n: f32) -> Tuple3 {
     return Tuple3{ n*tuple.x, n*tuple.y, n*tuple.z }
 }
 
-
 mult4 :: proc(tuple: Tuple4, n: f32) -> Tuple4 {
     // multiply
     return Tuple4{ n*tuple.x, n*tuple.y, n*tuple.z, n*tuple.w }
+}
+
+mult_colors :: proc(c1, c2: Color) -> Color {
+    // multiply each value
+    return Color{ c1.x * c2.x, c1.y * c2.y, c1.z * c2.z }
 }
 
 div :: proc(tuple: Tuple4, n: f32) -> Tuple4 {
