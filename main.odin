@@ -82,7 +82,15 @@ negate :: proc(tuple: Tuple4) -> Tuple4 {
     return Tuple4{ -tuple.x, -tuple.y, -tuple.z, -tuple.w }
 }
 
-mult :: proc(tuple: Tuple4, n: f32) -> Tuple4 {
+mult :: proc{mult3, mult4}
+
+mult3 :: proc(tuple: Tuple3, n: f32) -> Tuple3 {
+    // multiply
+    return Tuple3{ n*tuple.x, n*tuple.y, n*tuple.z }
+}
+
+
+mult4 :: proc(tuple: Tuple4, n: f32) -> Tuple4 {
     // multiply
     return Tuple4{ n*tuple.x, n*tuple.y, n*tuple.z, n*tuple.w }
 }
