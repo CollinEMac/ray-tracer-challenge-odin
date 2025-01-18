@@ -16,24 +16,21 @@ color_is_a_struct :: proc(t: ^testing.T) {
 adding_colors :: proc(t:^testing.T) {
     c1 := main.color(0.9, 0.6, 0.75)
     c2 := main.color(0.7, 0.1, 0.25)
-    sum := main.add(c1, c2)
-    expected := main.color(1.6, 0.7, 1.0)
 
-    testing.expect(t, approx_equal(sum.x, expected.x)) 
-    testing.expect(t, approx_equal(sum.y, expected.y)) 
-    testing.expect(t, approx_equal(sum.z, expected.z)) 
+    testing.expect(t,
+        deeply_approx_equal(main.add(c1, c2), main.color(1.6, 0.7, 1.0))
+    )
 }
 
 @(test)
 subtracting_colors :: proc(t:^testing.T) {
     c1 := main.color(0.9, 0.6, 0.75)
     c2 := main.color(0.7, 0.1, 0.25)
-    diff := main.subtract(c1, c2)
-    expected := main.color(0.2, 0.5, 0.5)
 
-    testing.expect(t, approx_equal(diff.x, expected.x)) 
-    testing.expect(t, approx_equal(diff.y, expected.y)) 
-    testing.expect(t, approx_equal(diff.z, expected.z)) 
+    testing.expect(t,
+        deeply_approx_equal(main.subtract(c1, c2), main.color(0.2, 0.5, 0.5))
+    )
+
 }
 
 @(test)
