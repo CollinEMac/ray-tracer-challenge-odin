@@ -10,7 +10,7 @@ approx_equal :: proc(a, b: f32) -> bool {
 
 @(test)
 tuple_is_a_point :: proc(t: ^testing.T) {
-    a := main.Tuple{ 4.3, -4.2, 3.1, 1.0 }
+    a := main.Tuple4{ 4.3, -4.2, 3.1, 1.0 }
     testing.expect_value(t, a.x, 4.3)
     testing.expect_value(t, a.y, -4.2)
     testing.expect_value(t, a.z, 3.1)
@@ -29,7 +29,7 @@ tuple_is_a_point :: proc(t: ^testing.T) {
 
 @(test)
 tuple_is_vector :: proc(t: ^testing.T) {
-    a := main.Tuple{ 4.3, -4.2, 3.1, 0.0 }
+    a := main.Tuple4{ 4.3, -4.2, 3.1, 0.0 }
     testing.expect_value(t, a.x, 4.3)
     testing.expect_value(t, a.y, -4.2)
     testing.expect_value(t, a.z, 3.1)
@@ -52,7 +52,7 @@ point_proc_creates_point :: proc(t: ^testing.T) {
     testing.expect_value(
         t,
         p,
-        main.Tuple{ 4.0, -4.0, 3.0, 1.0 }
+        main.Tuple4{ 4.0, -4.0, 3.0, 1.0 }
     )
 }
 
@@ -62,25 +62,25 @@ vector_proc_creates_vector :: proc(t: ^testing.T) {
     testing.expect_value(
         t,
         p,
-        main.Tuple{ 4.0, -4.0, 3.0, 0.0 }
+        main.Tuple4{ 4.0, -4.0, 3.0, 0.0 }
     )
 }
 
 @(test)
 equals_proc_validates_equality :: proc(t: ^testing.T) {
-    a := main.Tuple{ 4.0, -4.0, 3.0, 1.0 }
-    b := main.Tuple{ 4.0, -4.0, 100.0, 1.0 }
+    a := main.Tuple4{ 4.0, -4.0, 3.0, 1.0 }
+    b := main.Tuple4{ 4.0, -4.0, 100.0, 1.0 }
 
     testing.expect_value(t, main.equals(a,b), false)
-    testing.expect(t, main.equals(a,main.Tuple{ 4.0, -4.0, 3.0, 1.0 }))
+    testing.expect(t, main.equals(a,main.Tuple4{ 4.0, -4.0, 3.0, 1.0 }))
 }
 
 @(test)
 add_tuples :: proc(t: ^testing.T) {
-    a1 := main.Tuple{ 3, -2, 5, 1 }
-    a2 := main.Tuple{ -2, 3, 1, 0 }
+    a1 := main.Tuple4{ 3, -2, 5, 1 }
+    a2 := main.Tuple4{ -2, 3, 1, 0 }
 
-    testing.expect_value(t, main.add(a1, a2), main.Tuple{ 1, 1, 6, 1 })
+    testing.expect_value(t, main.add(a1, a2), main.Tuple4{ 1, 1, 6, 1 })
 }
 
 @(test)
@@ -117,26 +117,26 @@ subtract_vector_from_zero_vector :: proc(t: ^testing.T) {
 
 @(test)
 negate_a_vector :: proc(t: ^testing.T) {
-    a := main.Tuple{ 1, -2, 3, -4 }
-    testing.expect_value(t, main.negate(a), main.Tuple{ -1, 2, -3, 4 })
+    a := main.Tuple4{ 1, -2, 3, -4 }
+    testing.expect_value(t, main.negate(a), main.Tuple4{ -1, 2, -3, 4 })
 }
 
 @(test)
 multiply_tuple_by_scalar :: proc(t: ^testing.T) {
-    a := main.Tuple{ 1, -2, 3, -4 }
-    testing.expect_value(t, main.mult(a, 3.5), main.Tuple{ 3.5, -7, 10.5, -14 })
+    a := main.Tuple4{ 1, -2, 3, -4 }
+    testing.expect_value(t, main.mult(a, 3.5), main.Tuple4{ 3.5, -7, 10.5, -14 })
 }
 
 @(test)
 multiply_tuple_by_fraction :: proc(t: ^testing.T) {
-    a := main.Tuple{ 1, -2, 3, -4 }
-    testing.expect_value(t, main.mult(a, 0.5), main.Tuple{ 0.5, -1, 1.5, -2 })
+    a := main.Tuple4{ 1, -2, 3, -4 }
+    testing.expect_value(t, main.mult(a, 0.5), main.Tuple4{ 0.5, -1, 1.5, -2 })
 }
 
 @(test)
 divide_tuple_by_scalar :: proc(t: ^testing.T) {
-    a := main.Tuple{ 1, -2, 3, -4 }
-    testing.expect_value(t, main.div(a, 2), main.Tuple{ 0.5, -1, 1.5, -2 })
+    a := main.Tuple4{ 1, -2, 3, -4 }
+    testing.expect_value(t, main.div(a, 2), main.Tuple4{ 0.5, -1, 1.5, -2 })
 }
 
 @(test)

@@ -1,13 +1,13 @@
 package main 
 
 Projectile :: struct {
-    position: Tuple,
-    velocity: Tuple
+    position: Point,
+    velocity: Vector
 }
 
 Environment :: struct {
-    gravity: Tuple,
-    wind: Tuple
+    gravity: Vector,
+    wind: Vector 
 }
 
 tick :: proc(env: Environment, proj: Projectile) -> Projectile {

@@ -16,54 +16,83 @@ main :: proc() {
     }
 }
 
+Tuple3 :: struct {
+    x, y, z: f32,
+}
 
-Tuple :: struct {
+Tuple4 :: struct {
     x, y, z, w: f32,
 }
 
-point :: proc(x, y, z: f32) -> Tuple {
-    return Tuple{ x, y, z, 1.0 }
+Point :: Tuple4
+Vector :: Tuple4
+Color :: Tuple3 // unfortunately, as a Tuple3 R,G,B will be X,Y,Z...
+
+point :: proc(x, y, z: f32) -> Point {
+    return Point{ x, y, z, 1.0 }
 }
 
-is_point :: proc(tuple: Tuple) -> bool {
+is_point :: proc(tuple: Tuple4) -> bool {
     return tuple.w == 1.0
 }
 
-vector :: proc(x, y, z: f32) -> Tuple {
-    return Tuple{ x, y, z, 0.0 }
+vector :: proc(x, y, z: f32) -> Vector {
+    return Vector{ x, y, z, 0.0 }
 }
 
-is_vector :: proc(tuple: Tuple) -> bool {
+is_vector :: proc(tuple: Tuple4) -> bool {
     return tuple.w == 0.0
 }
 
-equals :: proc(tuple1: Tuple, tuple2: Tuple) -> bool {
+color :: proc(r, g, b: f32) -> Color {
+    return Color{ r, g, b }
+}
+
+equals :: proc{equals3, equals4}
+
+equals3 :: proc(tuple1, tuple2: Tuple3, ) -> bool {
     return tuple1 == tuple2
 }
 
-add :: proc(a1: Tuple, a2: Tuple) -> Tuple {
-    return Tuple{ a1.x + a2.x, a1.y + a2.y, a1.z + a2.z, a1.w + a2.w }
+equals4 :: proc(tuple1, tuple2: Tuple4, ) -> bool {
+    return tuple1 == tuple2
 }
 
-subtract :: proc(a1: Tuple, a2: Tuple) -> Tuple {
-    return Tuple{ a1.x - a2.x, a1.y - a2.y, a1.z - a2.z, a1.w - a2.w }
+add :: proc{add3, add4}
+
+add3 :: proc(a1, a2: Tuple3) -> Tuple3 {
+    return Tuple3{ a1.x + a2.x, a1.y + a2.y, a1.z + a2.z }
 }
 
-negate :: proc(tuple: Tuple) -> Tuple {
-    return Tuple{ -tuple.x, -tuple.y, -tuple.z, -tuple.w }
+add4 :: proc(a1, a2: Tuple4) -> Tuple4 {
+    return Tuple4{ a1.x + a2.x, a1.y + a2.y, a1.z + a2.z, a1.w + a2.w }
 }
 
-mult :: proc(tuple: Tuple, n: f32) -> Tuple {
+subtract :: proc{subtract3, subtract4}
+
+subtract3 :: proc(a1, a2: Tuple3) -> Tuple3 {
+    return Tuple3{ a1.x - a2.x, a1.y - a2.y, a1.z - a2.z}
+}
+
+subtract4 :: proc(a1, a2: Tuple4) -> Tuple4 {
+    return Tuple4{ a1.x - a2.x, a1.y - a2.y, a1.z - a2.z, a1.w - a2.w }
+}
+
+negate :: proc(tuple: Tuple4) -> Tuple4 {
+    return Tuple4{ -tuple.x, -tuple.y, -tuple.z, -tuple.w }
+}
+
+mult :: proc(tuple: Tuple4, n: f32) -> Tuple4 {
     // multiply
-    return Tuple{ n*tuple.x, n*tuple.y, n*tuple.z, n*tuple.w }
+    return Tuple4{ n*tuple.x, n*tuple.y, n*tuple.z, n*tuple.w }
 }
 
-div :: proc(tuple: Tuple, n: f32) -> Tuple {
+div :: proc(tuple: Tuple4, n: f32) -> Tuple4 {
     // division
-    return Tuple{ tuple.x/n, tuple.y/n, tuple.z/n, tuple.w/n }
+    return Tuple4{ tuple.x/n, tuple.y/n, tuple.z/n, tuple.w/n }
 }
 
-mag :: proc(t: Tuple) -> f32 {
+mag :: proc(t: Vector) -> f32 {
     // magnitude of a vector
     return math.sqrt(
         math.pow(t.x, 2) +
@@ -72,10 +101,10 @@ mag :: proc(t: Tuple) -> f32 {
         math.pow(t.w, 2))
 }
 
-norm :: proc(t: Tuple) -> Tuple {
+norm :: proc(t: Vector) -> Vector{
     // normalize a vector
     magnitude := mag(t)
-    return Tuple {
+    return Vector {
         t.x / magnitude,
         t.y / magnitude,
         t.z / magnitude,
@@ -83,7 +112,7 @@ norm :: proc(t: Tuple) -> Tuple {
     }
 }
 
-dot :: proc(a, b: Tuple) -> f32 {
+dot :: proc(a, b: Vector) -> f32 {
     // The dot product of two vectors
     return a.x * b.x +
         a.y * b.y +
@@ -91,7 +120,7 @@ dot :: proc(a, b: Tuple) -> f32 {
         a.w * b.w
 }
 
-cross :: proc(a, b: Tuple) -> Tuple {
+cross :: proc(a, b: Vector) -> Vector{
     // The cross product of two vectors
     return vector(
         a.y * b.z - a.z * b.y,
