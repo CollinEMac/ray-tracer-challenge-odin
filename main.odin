@@ -140,3 +140,33 @@ cross :: proc(a, b: Vector) -> Vector{
         a.x * b.y - a.y * b.x
     )
 }
+
+canvas :: proc(width, height: int) -> [][]Color {
+    m := make([][]Color, width)
+    for w in 0..< width {
+        m[w] = make([]Color, height)
+        for h in 0..< height {
+            m[w][h] = color(0, 0, 0)
+        }
+    }
+    return m
+}
+
+get_width :: proc(m: [][]Tuple3) -> int {
+    return len(m)
+}
+
+get_height :: proc(m: [][]Tuple3) -> int {
+    return len(m[0])
+}
+
+pixel_at :: proc(m: [][]Tuple3, w: int, h: int) -> Tuple3 {
+    return m[w][h]
+}
+
+destroy_canvas :: proc(c: [][]Color) {
+    for i in 0..<len(c) {
+        delete(c[i])
+    }
+    delete(c)
+}
