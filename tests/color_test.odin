@@ -67,3 +67,13 @@ create_a_canvas :: proc(t:^testing.T) {
     }
 }
 
+@(test)
+writing_pixel_to_canvas :: proc(t:^testing.T) {
+    c := main.canvas(10, 20)
+    red := main.color(1, 0, 0)
+
+    main.write_pixel(c, 2, 3, red)
+
+    testing.expect_value(t, main.pixel_at(c, 2, 3), red)
+}
+

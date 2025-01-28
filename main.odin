@@ -170,3 +170,7 @@ destroy_canvas :: proc(c: [][]Color) {
     }
     delete(c)
 }
+
+write_pixel :: proc(c: [][]Color, x: int, y: int, color: Color) {
+    c[x][y] = color
+}
