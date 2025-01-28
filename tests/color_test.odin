@@ -1,6 +1,8 @@
 package tests
 
+import "core:fmt"
 import "core:testing"
+import "core:strings"
 import main ".."
 
 @(test)
@@ -70,6 +72,7 @@ create_a_canvas :: proc(t:^testing.T) {
 @(test)
 writing_pixel_to_canvas :: proc(t:^testing.T) {
     c := main.canvas(10, 20)
+    defer main.destroy_canvas(c)
     red := main.color(1, 0, 0)
 
     main.write_pixel(c, 2, 3, red)
@@ -77,3 +80,18 @@ writing_pixel_to_canvas :: proc(t:^testing.T) {
     testing.expect_value(t, main.pixel_at(c, 2, 3), red)
 }
 
+@(test)
+construct_ppm_header :: proc(t: ^testing.T) {
+    c := main.canvas(5, 3)
+    defer main.destroy_canvas(c)
+
+    ppm := main.canvas_to_ppm(c)
+    defer delete(ppm)
+
+    ppm_three_lines := strings.split(ppm, "\n")
+    defer delete(ppm_three_lines)
+
+    testing.expect_value(t, ppm_three_lines[0], "P3")
+    testing.expect_value(t, ppm_three_lines[1], "5 3")
+    testing.expect_value(t, ppm_three_lines[2], "255")
+}

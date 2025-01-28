@@ -1,7 +1,7 @@
 package main
 
-import "core:math"
 import "core:fmt"
+import "core:math"
 
 main :: proc() {
     // using this as sort of a playground for now
@@ -174,3 +174,9 @@ destroy_canvas :: proc(c: [][]Color) {
 write_pixel :: proc(c: [][]Color, x: int, y: int, color: Color) {
     c[x][y] = color
 }
+
+canvas_to_ppm :: proc(c: [][]Color) -> string {
+    header := fmt.aprintf("P3\n%d %d\n255\n", get_width(c), get_height(c))
+    return header 
+}
+
