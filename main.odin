@@ -2,6 +2,7 @@ package main
 
 import "core:fmt"
 import "core:math"
+import "core:strings"
 
 main :: proc() {
     // using this as sort of a playground for now
@@ -175,8 +176,55 @@ write_pixel :: proc(c: [][]Color, x: int, y: int, color: Color) {
     c[x][y] = color
 }
 
+convert_color :: proc(element: f32) -> int {
+    if element > 1 {
+        return 255
+    }
+    if element < 0 {
+        return 0
+    }
+
+    return int(math.round(element * 255))
+}
+
 canvas_to_ppm :: proc(c: [][]Color) -> string {
-    header := fmt.aprintf("P3\n%d %d\n255\n", get_width(c), get_height(c))
-    return header 
+    width := get_width(c)
+    height := get_height(c)
+
+    header := fmt.aprintf("P3\n%d %d\n255\n", width, height)
+    defer delete(header)
+
+    builder := strings.builder_make()
+    defer strings.builder_destroy(&builder)
+
+    for h in 0..<height {
+        line := ""
+        for w in 0..<width {
+            color := c[w][h]
+            if w == width-1 {
+                fmt.sbprintf(
+                    &builder,
+                    "%d %d %d",  // Remove extra space at end
+                    convert_color(color.x),
+                    convert_color(color.y),
+                    convert_color(color.z)
+                )
+            } else {
+                fmt.sbprintf(
+                    &builder,
+                    "%d %d %d ",
+                    convert_color(color.x),
+                    convert_color(color.y),
+                    convert_color(color.z)
+                )
+            }
+        }
+        // strings.write_string(&builder, line)
+        strings.write_byte(&builder, '\n')
+    }
+
+    response := fmt.aprintf("%s%s", header, strings.to_string(builder))
+    // return fmt.aprintf("%s%s", header, strings.to_string(builder))
+    return response
 }
 

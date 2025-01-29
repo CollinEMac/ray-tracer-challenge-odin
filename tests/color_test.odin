@@ -95,3 +95,41 @@ construct_ppm_header :: proc(t: ^testing.T) {
     testing.expect_value(t, ppm_three_lines[1], "5 3")
     testing.expect_value(t, ppm_three_lines[2], "255")
 }
+
+@(test)
+construct_ppm_pixel_data :: proc(t: ^testing.T) {
+    c := main.canvas(5, 3)
+    defer main.destroy_canvas(c)
+
+    c1 := main.color(1.5, 0, 0)
+    c2 := main.color(0, 0.5, 0)
+    c3 := main.color(-0.5, 0, 1)
+
+    main.write_pixel(c, 0, 0, c1)
+    main.write_pixel(c, 2, 1, c2)
+    main.write_pixel(c, 4, 2, c3)
+
+    ppm := main.canvas_to_ppm(c)
+    defer delete(ppm)
+
+    ppm_lines := strings.split(ppm, "\n")
+    defer delete(ppm_lines)
+
+    fmt.println(ppm)
+
+    testing.expect_value(
+        t,
+        ppm_lines[3], 
+        "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+    )
+    testing.expect_value(
+        t,
+        ppm_lines[4], 
+        "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0"
+    )
+    testing.expect_value(
+        t,
+        ppm_lines[5], 
+        "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255"
+    )
+}
