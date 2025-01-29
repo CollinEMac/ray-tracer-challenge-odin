@@ -133,3 +133,46 @@ construct_ppm_pixel_data :: proc(t: ^testing.T) {
         "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255"
     )
 }
+
+@(test)
+splitting_long_lines_in_ppm_files :: proc(t: ^testing.T) {
+    height := 2
+    width := 10
+    c := main.canvas(width, height)
+    defer main.destroy_canvas(c)
+
+    // Make every pixel this color
+    for h in 0..<height {
+        for w in 0..<width {
+            main.write_pixel(c, w, h, main.color(1, 0.8, 0.6))
+        }
+    }
+
+    ppm := main.canvas_to_ppm(c)
+    defer delete(ppm)
+
+    ppm_lines := strings.split(ppm, "\n")
+    defer delete(ppm_lines)
+
+    testing.expect_value(
+        t,
+        ppm_lines[3], 
+        "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204"
+    )
+    testing.expect_value(
+        t,
+        ppm_lines[4], 
+        "153 255 204 153 255 204 153 255 204 153 255 204 153"
+    )
+    testing.expect_value(
+        t,
+        ppm_lines[5], 
+        "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204"
+    )
+    testing.expect_value(
+        t,
+        ppm_lines[6],
+        "153 255 204 153 255 204 153 255 204 153 255 204 153"
+    )
+}
+

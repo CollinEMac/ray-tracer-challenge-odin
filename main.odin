@@ -198,33 +198,42 @@ canvas_to_ppm :: proc(c: [][]Color) -> string {
     defer strings.builder_destroy(&builder)
 
     for h in 0..<height {
-        line := ""
+        line_length := 0
         for w in 0..<width {
             color := c[w][h]
-            if w == width-1 {
-                fmt.sbprintf(
-                    &builder,
-                    "%d %d %d",  // Remove extra space at end
-                    convert_color(color.x),
-                    convert_color(color.y),
-                    convert_color(color.z)
-                )
-            } else {
-                fmt.sbprintf(
-                    &builder,
-                    "%d %d %d ",
-                    convert_color(color.x),
-                    convert_color(color.y),
-                    convert_color(color.z)
-                )
+
+            // For each number in the triplet
+            numbers := [3]int{
+                convert_color(color.x),
+                convert_color(color.y),
+                convert_color(color.z),
+            }
+
+            for i := 0; i < 3; i += 1 {
+                // Format the number
+                num := fmt.aprintf("%d", numbers[i])
+                defer delete(num)
+                
+                // Add space if not at start of line
+                if line_length > 0 {
+                    // Check if adding space + number would exceed 70
+                    if line_length + 1 + len(num) > 70 {
+                        strings.write_byte(&builder, '\n')
+                        line_length = 0
+                    } else {
+                        strings.write_byte(&builder, ' ')
+                        line_length += 1
+                    }
+                }
+                
+                // Write the number
+                strings.write_string(&builder, num)
+                line_length += len(num)
             }
         }
-        // strings.write_string(&builder, line)
         strings.write_byte(&builder, '\n')
     }
 
-    response := fmt.aprintf("%s%s", header, strings.to_string(builder))
-    // return fmt.aprintf("%s%s", header, strings.to_string(builder))
-    return response
+    return fmt.aprintf("%s%s", header, strings.to_string(builder))
 }
 
