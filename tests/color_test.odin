@@ -176,3 +176,16 @@ splitting_long_lines_in_ppm_files :: proc(t: ^testing.T) {
     )
 }
 
+@(test)
+ppm_files_are_terminated_by_newline :: proc(t:^testing.T) {
+    c := main.canvas(5, 3)
+    defer main.destroy_canvas(c)
+
+    ppm := main.canvas_to_ppm(c)
+    defer delete(ppm)
+    
+    last_char := ppm[len(ppm)-1]
+
+    testing.expect_value(t, last_char, '\n')
+}
+ 
