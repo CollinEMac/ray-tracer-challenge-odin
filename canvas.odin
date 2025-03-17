@@ -3,6 +3,7 @@ package main
 import "core:fmt"
 import "core:math"
 import "core:strings"
+import "core:os"
 
 Color :: Tuple3 // unfortunately, as a Tuple3 R,G,B will be X,Y,Z...
 
@@ -108,5 +109,9 @@ canvas_to_ppm :: proc(c: [][]Color) -> string {
     }
 
     return fmt.aprintf("%s%s", header, strings.to_string(builder))
+}
+
+save_ppm :: proc(ppm: string, filename: string) -> bool {
+    return os.write_entire_file(filename, transmute([]byte)ppm)
 }
 

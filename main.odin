@@ -5,15 +5,29 @@ import "core:math"
 
 main :: proc() {
     // using this as sort of a playground for now
-    p := Projectile { point(0, 1, 0), norm(vector(1, 1, 0)) }
+    p := Projectile { point(0, 1, 0), mult4(norm(vector(1, 1.8, 0)), 11.25) }
     e := Environment { vector(0, -0.1, 0), vector(-0.01, 0, 0) }
+    w := 900
+    h := 500
+    c := canvas(w, h)
+    defer destroy_canvas(c)
+    red := color(1, 0, 0)
 
     i := 0
-    for i < 20 {
+    for i < 197 {
         p = tick(e, p)
-        fmt.printf("Position: %f ", p.position.y)
+        fmt.printf("X Position: %f ", p.position.x)
+        fmt.printf("Y Position: %f ", p.position.y)
+        x := int(p.position.x)
+        y := int(p.position.y)
+        if (x <= w && y <= h) {
+            write_pixel(c, x, h - y, red)
+        }
         i += 1
     }
+
+    ppm := canvas_to_ppm(c)
+    save_ppm(ppm, "output.ppm")
 }
 
 Tuple3 :: struct {
