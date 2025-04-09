@@ -99,3 +99,14 @@ multiply_a_matrix_by_a_tuple :: proc(t: ^testing.T) {
 
     testing.expect_value(t, main.multiply_matrix_and_tuple4(m, b), main.Tuple4 { 18, 24, 33, 1 })
 }
+
+multiply_a_matrix_by_the_identity_matrix ::  proc(t: ^testing.T) {
+    m := matrix[4, 4]f32{
+        0, 1, 2, 4,
+        1, 2, 4, 8,
+        2, 4, 8, 16,
+        4, 8, 16, 32
+    }
+
+    testing.expect_value(t, m * main.IDENTITY_MATRIX, m)
+}

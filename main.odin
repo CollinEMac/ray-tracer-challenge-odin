@@ -30,6 +30,13 @@ main :: proc() {
     save_ppm(ppm, "output.ppm")
 }
 
+IDENTITY_MATRIX := matrix[4,4]f32{
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+}
+
 Tuple3 :: struct {
     x, y, z: f32,
 }
