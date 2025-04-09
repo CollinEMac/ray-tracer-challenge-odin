@@ -145,3 +145,25 @@ cross :: proc(a, b: Vector) -> Vector{
     )
 }
 
+multiply_matrix_and_tuple3 :: proc(a: matrix[3,3]f32, b: Tuple3) -> Tuple3{
+    // convert the tuple to a matrix
+    b_matrix := matrix[3, 1]f32{
+        b.x, b.y, b.z
+    }
+
+    product := a * b_matrix
+
+    return Tuple3 { product[0,0], product[1,0], product[2,0] }
+}
+
+multiply_matrix_and_tuple4 :: proc(a: matrix[4,4]f32, b: Tuple4) -> Tuple4{
+    // convert the tuple to a matrix
+    b_matrix := matrix[4, 1]f32{
+        b.x, b.y, b.z, b.w
+    }
+
+    product := a * b_matrix
+
+    return Tuple4 { product[0,0], product[1,0], product[2,0], product[3,0] }
+}
+

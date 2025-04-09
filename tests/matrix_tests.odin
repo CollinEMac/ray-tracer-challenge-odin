@@ -62,12 +62,12 @@ matrix_inequality :: proc(t: ^testing.T) {
 }
 
 multiplying_two_matrices :: proc(t: ^testing.T) {
-     m1 := matrix[4, 4]f32 {
+    m1 := matrix[4, 4]f32 {
         1, 2, 3, 4,
         5.5, 6.5, 7.5, 8.5,
         9, 10, 11, 12,
         13.5, 14.5, 15.5, 16.5
-    }   
+    }
 
     m2 := matrix[4, 4]f32 {
         -2, 1, 2, 3,
@@ -84,4 +84,18 @@ multiplying_two_matrices :: proc(t: ^testing.T) {
     }
 
     testing.expect_value(t, m1*m2, result)
+}
+
+multiply_a_matrix_by_a_tuple :: proc(t: ^testing.T) {
+    // TODO: maybe tuples should just be replaced with one dimentional matrices?
+    m := matrix[4, 4]f32 {
+        1, 2, 3, 4,
+        2, 4, 4, 2,
+        8, 6, 4, 1,
+        0, 0, 0, 1
+    }
+
+    b := main.Tuple4 { 1, 2, 3, 1 }
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(m, b), main.Tuple4 { 18, 24, 33, 1 })
 }
