@@ -1,5 +1,6 @@
 package tests
 
+import "base:intrinsics"
 import "core:fmt"
 import "core:testing"
 import main ".."
@@ -109,4 +110,32 @@ multiply_a_matrix_by_the_identity_matrix ::  proc(t: ^testing.T) {
     }
 
     testing.expect_value(t, m * main.IDENTITY_MATRIX, m)
+}
+
+transpose_a_matrix :: proc(t: ^testing.T) {
+    m := matrix[4,4]f32{
+        0, 9, 3, 0,
+        9, 8, 0, 8,
+        1, 8, 5, 3,
+        0, 0, 5, 8
+    }
+
+    testing.expect_value(
+        t,
+        intrinsics.transpose(m),
+        matrix[4,4]f32{
+            0, 9, 1, 0,
+            9, 8, 8, 0,
+            3, 0, 5, 5,
+            0, 8, 3, 8
+        }
+    )
+}
+
+transpose_the_identity_matrix :: proc(t: ^testing.T) {
+    testing.expect_value(
+        t,
+        intrinsics.transpose(main.IDENTITY_MATRIX),
+        main.IDENTITY_MATRIX
+    )
 }
