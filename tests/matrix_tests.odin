@@ -61,3 +61,27 @@ matrix_inequality :: proc(t: ^testing.T) {
     testing.expect(t, m1 != m2)
 }
 
+multiplying_two_matrices :: proc(t: ^testing.T) {
+     m1 := matrix[4, 4]f32 {
+        1, 2, 3, 4,
+        5.5, 6.5, 7.5, 8.5,
+        9, 10, 11, 12,
+        13.5, 14.5, 15.5, 16.5
+    }   
+
+    m2 := matrix[4, 4]f32 {
+        -2, 1, 2, 3,
+        3, 2, 1, -1,
+        4, 3, 6, 5,
+        1, 2, 7, 8
+    }
+
+    result := matrix[4, 4]f32 {
+        20, 22, 50, 48,
+        44, 54, 114, 108,
+        40, 58, 110, 102,
+        16, 26, 46, 42
+    }
+
+    testing.expect_value(t, m1*m2, result)
+}
