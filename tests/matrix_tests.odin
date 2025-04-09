@@ -1,7 +1,7 @@
 package tests
 
-import "base:intrinsics"
 import "core:fmt"
+import "core:math/linalg"
 import "core:testing"
 import main ".."
 
@@ -122,7 +122,7 @@ transpose_a_matrix :: proc(t: ^testing.T) {
 
     testing.expect_value(
         t,
-        intrinsics.transpose(m),
+        linalg.transpose(m),
         matrix[4,4]f32{
             0, 9, 1, 0,
             9, 8, 8, 0,
@@ -135,7 +135,18 @@ transpose_a_matrix :: proc(t: ^testing.T) {
 transpose_the_identity_matrix :: proc(t: ^testing.T) {
     testing.expect_value(
         t,
-        intrinsics.transpose(main.IDENTITY_MATRIX),
+        linalg.transpose(main.IDENTITY_MATRIX),
         main.IDENTITY_MATRIX
     )
 }
+
+determinant_of_a_matrix :: proc(t: ^testing.T) {
+    m := matrix[2,2]f32{
+        1, 5,
+        -3, 2
+    }
+
+    testing.expect_value(t, linalg.determinant(m), 17)
+}
+
+
