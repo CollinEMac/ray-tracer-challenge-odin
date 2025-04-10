@@ -236,4 +236,40 @@ calculate_the_determinant_of_a_4x4_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, linalg.determinant(a), -4071)
 }
 
+calculate_the_inverse_of_a_matrix :: proc(t: ^testing.T) {
+    a := matrix[4, 4]f32{
+        -5, 2, 6, -8,
+        1, -5, 1, 8,
+        7, 7, -6, -8,
+        1, -3, 7, 4
+    }
+    b := linalg.inverse(a)
+
+    testing.expect_value(t, linalg.determinant(a), 532)
+    testing.expect_value(t, main.cofactor_4x4(a, 2, 3), -160)
+    testing.expect_value(t, b[3,2], -160/532)
+    testing.expect_value(t, main.cofactor_4x4(a, 3, 2), 105)
+    testing.expect_value(t, b[2,3], 105/532)
+}
+
+multiply_a_product_by_its_inverse :: proc(t: ^testing.T) {
+    a := matrix[4, 4]f32{
+        3, -9, 7, 3,
+        3, -8, 2, -9,
+        -4, 4, 4, 1,
+        -6, 5, -1, 1
+    }
+
+    b := matrix[4, 4]f32{
+        8, 2, 2, 2,
+        3, -1, 7, 0,
+        7, 0, 5, 4,
+        6, -2, 0, 5
+    }
+
+    c := a * b
+
+    testing.expect_value(t, c * linalg.inverse(b), a)
+}
+
 
