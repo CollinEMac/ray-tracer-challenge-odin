@@ -2,6 +2,7 @@ package main
 
 import "core:fmt"
 import "core:math"
+import "core:math/linalg"
 
 main :: proc() {
     // using this as sort of a playground for now
@@ -196,5 +197,15 @@ submatrix_3x3 :: proc(src: $M/matrix[$R, $C]$E, row_start, col_start: int) -> ma
     }
     
     return result
+}
+
+cofactor_3x3 :: proc(a: matrix[3, 3]f32, row, column: int) -> f32 {
+    // returns the minor if even, negative minor if odd
+    minor := linalg.matrix_minor(a, row, column)
+    if (row + column % 2 == 0) {
+        return minor
+    } else {
+        return -minor
+    }
 }
 

@@ -195,3 +195,16 @@ calculate_the_minor_of_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, linalg.matrix_minor(a, 1, 0), 25)
 }
 
+calculate_a_cofactor_of_a_3x3_matrix :: proc(t: ^testing.T) {
+    a := matrix[3, 3]f32{
+        3, 5, 0,
+        2, -1, -7,
+        6, -1, 5
+    }
+
+    testing.expect_value(t, linalg.matrix_minor(a, 0, 0), -12)
+    testing.expect_value(t, main.cofactor_3x3(a, 0, 0), -12)
+    testing.expect_value(t, linalg.matrix_minor(a, 1, 0), 25)
+    testing.expect_value(t, main.cofactor_3x3(a, 1, 0), -25)
+}
+
