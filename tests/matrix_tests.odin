@@ -182,3 +182,16 @@ submatrix_of_a_4x4_matrix_is_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.submatrix_3x3(m, 2, 1), result)
 }
 
+calculate_the_minor_of_a_3x3_matrix :: proc(t: ^testing.T) {
+    a := matrix[3, 3]f32{
+        3, 5, 0,
+        2, -1, -7,
+        6, -1, 5
+    }
+
+    b := main.submatrix_2x2(a, 1, 0)
+
+    testing.expect_value(t, linalg.determinant(b), 25)
+    testing.expect_value(t, linalg.matrix_minor(a, 1, 0), 25)
+}
+
