@@ -64,13 +64,7 @@ is_vector :: proc(tuple: Tuple4) -> bool {
     return tuple.w == 0.0
 }
 
-equals :: proc{equals3, equals4}
-
-equals3 :: proc(tuple1, tuple2: Tuple3, ) -> bool {
-    return tuple1 == tuple2
-}
-
-equals4 :: proc(tuple1, tuple2: Tuple4, ) -> bool {
+equals :: proc(tuple1, tuple2: $T) -> bool {
     return tuple1 == tuple2
 }
 
