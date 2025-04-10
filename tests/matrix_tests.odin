@@ -149,4 +149,36 @@ determinant_of_a_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, linalg.determinant(m), 17)
 }
 
+submatrix_of_a_3x3_matrix_is_a_2x2_matrix :: proc(t: ^testing.T) {
+    m := matrix[3, 3]f32{
+        1, 5, 0,
+        -3, 2, 7,
+        0, 6, -2
+    }
+    
+    result := matrix[2, 2]f32{
+        -3, 2,
+        0, 6
+    }
+
+    testing.expect_value(t, main.submatrix_2x2(m, 0, 2), result)
+}
+
+submatrix_of_a_4x4_matrix_is_a_3x3_matrix :: proc(t: ^testing.T) {
+    m := matrix[4, 4]f32{
+        -6, 1, 1, 6,
+        -8, 5, 8, 6,
+        -1, 0, 8, 2,
+        -7, 1, -1, 1
+    }
+
+    result := matrix[3, 3]f32{
+        -6, 1, 6,
+        -8, 8, 6,
+        -7, -1, 1
+    }
+
+
+    testing.expect_value(t, main.submatrix_3x3(m, 2, 1), result)
+}
 

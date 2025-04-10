@@ -174,3 +174,33 @@ multiply_matrix_and_tuple4 :: proc(a: matrix[4,4]f32, b: Tuple4) -> Tuple4{
     return Tuple4 { product[0,0], product[1,0], product[2,0], product[3,0] }
 }
 
+submatrix_2x2 :: proc(src: $M/matrix[$R, $C]$E, row_start, col_start: int) -> matrix[2, 2]E {
+    assert(row_start >= 0 && row_start + 2 <= R, "Row range out of bounds")
+    assert(col_start >= 0 && col_start + 2 <= C, "Column range out of bounds")
+    
+    result: matrix[2, 2]E
+    
+    for r in 0..<2 {
+        for c in 0..<2 {
+            result[r, c] = src[row_start + r, col_start + c]
+        }
+    }
+    
+    return result
+}
+
+submatrix_3x3 :: proc(src: $M/matrix[$R, $C]$E, row_start, col_start: int) -> matrix[3, 3]E {
+    assert(row_start >= 0 && row_start + 3 <= R, "Row range out of bounds")
+    assert(col_start >= 0 && col_start + 3 <= C, "Column range out of bounds")
+    
+    result: matrix[3, 3]E
+    
+    for r in 0..<3 {
+        for c in 0..<3 {
+            result[r, c] = src[row_start + r, col_start + c]
+        }
+    }
+    
+    return result
+}
+
