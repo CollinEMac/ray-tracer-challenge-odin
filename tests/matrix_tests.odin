@@ -208,3 +208,32 @@ calculate_a_cofactor_of_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.cofactor_3x3(a, 1, 0), -25)
 }
 
+calculate_the_determinant_of_a_3x3_matrix :: proc(t: ^testing.T) {
+    a := matrix[3, 3]f32{
+        1, 2, 6,
+        -5, 8, -4,
+        2, 6, 4
+    }
+
+    testing.expect_value(t, main.cofactor_3x3(a, 0, 0), 56)
+    testing.expect_value(t, main.cofactor_3x3(a, 0, 1), 12)
+    testing.expect_value(t, main.cofactor_3x3(a, 0, 2), -46)
+    testing.expect_value(t, linalg.determinant(a), -196)
+}
+
+calculate_the_determinant_of_a_4x4_matrix :: proc(t: ^testing.T) {
+    a := matrix[4, 4]f32{
+        -2, -8, 3, 5,
+        -3, 1, 7, 3,
+        1, 2, -9, 6,
+        -6, 7, -7, -9
+    }
+
+    testing.expect_value(t, main.cofactor_4x4(a, 0, 0), 690)
+    testing.expect_value(t, main.cofactor_4x4(a, 0, 1), 447)
+    testing.expect_value(t, main.cofactor_4x4(a, 0, 2), 210)
+    testing.expect_value(t, main.cofactor_4x4(a, 0, 2), 51)
+    testing.expect_value(t, linalg.determinant(a), -4071)
+}
+
+

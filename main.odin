@@ -209,3 +209,14 @@ cofactor_3x3 :: proc(a: matrix[3, 3]f32, row, column: int) -> f32 {
     }
 }
 
+cofactor_4x4 :: proc(a: matrix[4, 4]f32, row, column: int) -> f32 {
+    // returns the minor if even, negative minor if odd
+    minor := linalg.matrix_minor(a, row, column)
+    if (row + column % 2 == 0) {
+        return minor
+    } else {
+        return -minor
+    }
+}
+
+
