@@ -271,4 +271,10 @@ multiply_a_product_by_its_inverse :: proc(t: ^testing.T) {
     testing.expect_value(t, c * linalg.inverse(b), a)
 }
 
+multiply_by_a_translation_matrix :: proc(t: ^testing.T) {
+    transform := main.translation(5, -3, 2)
+    p := main.point(-3, 4, 5)
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(2,1,7))
+}
 
