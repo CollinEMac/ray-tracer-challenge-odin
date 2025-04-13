@@ -293,5 +293,26 @@ translation_does_not_affect_vectors :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, v), v)
 }
 
+scaling_matrix_applied_to_a_point :: proc(t: ^testing.T) {
+    transform := main.scaling(2, 3, 4)
+    p := main.point(-4, 6, 8)
 
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(-8, 18, 32))
+}
+
+scaling_matrix_applied_to_a_vector :: proc(t: ^testing.T) {
+    transform := main.scaling(2, 3, 4)
+    v := main.vector(-4, 6, 8)
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, v), main.vector(-8, 18, 32))
+}
+
+multiply_by_the_inverse_of_a_scaling_matrix :: proc(t: ^testing.T) {
+    transform := main.scaling(2, 3, 4)
+    inv := linalg.inverse(transform)
+    v := main.vector(-4, 6, 8)
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(inv, v), main.vector(-2, 2, 2))
+   
+}
 

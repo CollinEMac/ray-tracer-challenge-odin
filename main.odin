@@ -219,11 +219,5 @@ cofactor_4x4 :: proc(a: matrix[4, 4]f32, row, column: int) -> f32 {
     }
 }
 
-translation :: proc(x, y, z: f32) -> matrix[4,4]f32 {
-    m := IDENTITY_MATRIX
-    m[0,3] = x
-    m[1,3] = y
-    m[2,3] = z
-    return m 
-}
+
 
