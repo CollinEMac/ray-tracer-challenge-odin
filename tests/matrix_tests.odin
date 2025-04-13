@@ -278,3 +278,20 @@ multiply_by_a_translation_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(2,1,7))
 }
 
+mutiply_by_the_inverse_of_a_translation_matrix :: proc(t: ^testing.T) {
+    transform := main.translation(5, -3, 2)
+    inv := linalg.inverse(transform)
+    p := main.point(-3, 4, 5)
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(inv, p), main.point(-8,7,3))
+}
+
+translation_does_not_affect_vectors :: proc(t: ^testing.T) {
+    transform := main.translation(5, -3, 2)
+    v := main.vector(-3, 4, 5)
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, v), v)
+}
+
+
+
