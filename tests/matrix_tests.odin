@@ -88,7 +88,6 @@ multiplying_two_matrices :: proc(t: ^testing.T) {
 }
 
 multiply_a_matrix_by_a_tuple :: proc(t: ^testing.T) {
-    // TODO: maybe tuples should just be replaced with one dimentional matrices?
     m := matrix[4, 4]f32 {
         1, 2, 3, 4,
         2, 4, 4, 2,
