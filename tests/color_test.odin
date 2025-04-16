@@ -4,6 +4,7 @@ import "core:fmt"
 import "core:testing"
 import "core:strings"
 import main ".."
+import helpers "../helpers"
 
 @(test)
 color_is_a_struct :: proc(t: ^testing.T) {
@@ -20,7 +21,7 @@ adding_colors :: proc(t:^testing.T) {
     c2 := main.color(0.7, 0.1, 0.25)
 
     testing.expect(t,
-        main.deeply_approx_equal(main.add(c1, c2), main.color(1.6, 0.7, 1.0))
+        helpers.deeply_approx_equal(main.add(c1, c2), main.color(1.6, 0.7, 1.0))
     )
 }
 
@@ -30,7 +31,7 @@ subtracting_colors :: proc(t:^testing.T) {
     c2 := main.color(0.7, 0.1, 0.25)
 
     testing.expect(t,
-        main.deeply_approx_equal(main.subtract(c1, c2), main.color(0.2, 0.5, 0.5))
+        helpers.deeply_approx_equal(main.subtract(c1, c2), main.color(0.2, 0.5, 0.5))
     )
 
 }
@@ -47,7 +48,7 @@ multiply_colors :: proc(t:^testing.T) {
     c1 := main.color(1, 0.2, 0.4)
     c2 := main.color(0.9, 1, 0.1)
 
-    testing.expect(t, main.deeply_approx_equal(main.hadamard(c1, c2), main.color(0.9, 0.2, 0.04)))
+    testing.expect(t, helpers.deeply_approx_equal(main.hadamard(c1, c2), main.color(0.9, 0.2, 0.04)))
 }
 
 @(test)

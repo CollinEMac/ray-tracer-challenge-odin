@@ -31,8 +31,6 @@ main :: proc() {
     save_ppm(ppm, "output.ppm")
 }
 
-EPSILON : f32 = 0.0001
-
 IDENTITY_MATRIX_3 := matrix[3, 3]f32{
     1, 0, 0,
     0, 1, 0,
@@ -75,49 +73,6 @@ is_vector :: proc(tuple: Tuple4) -> bool {
 
 equals :: proc(tuple1, tuple2: $T) -> bool {
     return tuple1 == tuple2
-}
-
-approx_equal :: proc(a, b: f32) -> bool {
-    // For values near zero
-    if math.abs(a) < EPSILON && math.abs(b) < EPSILON {
-        return true
-    }
-    
-    // For regular comparisons, use relative difference
-    relative_diff := math.abs(a - b) / math.max(math.abs(a), math.abs(b))
-    return relative_diff < EPSILON
-}
-
-deeply_approx_equal :: proc (a, b: Tuple3) -> bool {
-    if approx_equal(a.x, b.x) &&
-        approx_equal(a.y, b.y) &&
-        approx_equal(a.z, b.z) {
-        return true
-    }
-    return false
-}
-
-deeply_approx_equal_4 :: proc (a, b: Tuple4) -> bool {
-    if approx_equal(a.x, b.x) &&
-        approx_equal(a.y, b.y) &&
-        approx_equal(a.z, b.z) &&
-        approx_equal(a.w, a.w) {
-        return true
-    }
-    return false
-}
-
-// Helper function for matrix comparison with epsilon
-matrix_approx_equal :: proc(a, b: matrix[$R, $C]$E) -> bool {
-    for r in 0..<R {
-        for c in 0..<C {
-            diff := a[r, c] - b[r, c]
-            if abs(diff) > EPSILON{
-                return false
-            }
-        }
-    }
-    return true
 }
 
 add :: proc{add3, add4}

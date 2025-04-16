@@ -5,6 +5,7 @@ import "core:math"
 import "core:math/linalg"
 import "core:testing"
 import main ".."
+import helpers "../helpers"
 
 @(test)
 construct_a_matrix :: proc(t: ^testing.T) {
@@ -258,11 +259,11 @@ calculate_the_inverse_of_a_matrix :: proc(t: ^testing.T) {
     }
     b := linalg.inverse(a)
 
-    testing.expect(t, main.approx_equal(linalg.determinant(a), 532))
-    testing.expect(t, main.approx_equal(main.cofactor_4x4(a, 2, 3), -160))
-    testing.expect(t, main.approx_equal(b[3,2], -160.0/532.0))
-    testing.expect(t, main.approx_equal(main.cofactor_4x4(a, 3, 2), 105))
-    testing.expect(t, main.approx_equal(b[2,3], 105.0/532.0))
+    testing.expect(t, helpers.approx_equal(linalg.determinant(a), 532))
+    testing.expect(t, helpers.approx_equal(main.cofactor_4x4(a, 2, 3), -160))
+    testing.expect(t, helpers.approx_equal(b[3,2], -160.0/532.0))
+    testing.expect(t, helpers.approx_equal(main.cofactor_4x4(a, 3, 2), 105))
+    testing.expect(t, helpers.approx_equal(b[2,3], 105.0/532.0))
 }
 
 @(test)
@@ -283,7 +284,7 @@ multiply_a_product_by_its_inverse :: proc(t: ^testing.T) {
 
     c := a * b
 
-    testing.expect(t, main.matrix_approx_equal(c * linalg.inverse(b), a))
+    testing.expect(t, helpers.matrix_approx_equal(c * linalg.inverse(b), a))
 }
 
 @(test)
@@ -359,7 +360,7 @@ rotating_a_point_around_the_x_axis :: proc(t: ^testing.T) {
 
     testing.expect(
         t,
-        main.deeply_approx_equal_4(
+        helpers.deeply_approx_equal_4(
             main.multiply_matrix_and_tuple4(half_quarter, p),
             main.point(0, math.sqrt_f32(2)/2, math.sqrt_f32(2)/2)
         )
@@ -374,7 +375,7 @@ inverse_of_an_x_rotation_rotates_in_opposite_direction :: proc(t: ^testing.T) {
 
     testing.expect(
         t,
-        main.deeply_approx_equal_4(
+        helpers.deeply_approx_equal_4(
             main.multiply_matrix_and_tuple4(inv, p),
             main.point(0, math.sqrt_f32(2)/2, -math.sqrt_f32(2)/2)
         )
@@ -395,7 +396,7 @@ rotating_a_point_around_the_y_axis :: proc(t: ^testing.T) {
 
     testing.expect(
         t,
-        main.deeply_approx_equal_4(
+        helpers.deeply_approx_equal_4(
             main.multiply_matrix_and_tuple4(full_quarter, p),
             main.point(1, 0, 0)
         )
@@ -416,7 +417,7 @@ rotating_a_point_around_the_z_axis :: proc(t: ^testing.T) {
 
     testing.expect(
         t,
-        main.deeply_approx_equal_4(
+        helpers.deeply_approx_equal_4(
             main.multiply_matrix_and_tuple4(full_quarter, p),
             main.point(-1, 0, 0)
         )

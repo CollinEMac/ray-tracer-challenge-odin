@@ -3,6 +3,7 @@ package tests
 import "core:testing"
 import "core:math"
 import main ".."
+import helpers "../helpers"
 
 @(test)
 tuple_is_a_point :: proc(t: ^testing.T) {
@@ -167,7 +168,7 @@ normalize_vector :: proc(t: ^testing.T) {
 get_mag_of_normalized_vector :: proc(t: ^testing.T) {
     v := main.vector(1, 2, 3)
     norm := main.norm(v)
-    testing.expect(t, main.approx_equal(main.mag(norm), 1))
+    testing.expect(t, helpers.approx_equal(main.mag(norm), 1))
 }
 
 @(test)
