@@ -348,8 +348,8 @@ reflection_is_scaling_by_a_negative_value :: proc(t: ^testing.T) {
 @(test)
 rotating_a_point_around_the_x_axis :: proc(t: ^testing.T) {
     p := main.point(0, 1, 0)
-    half_quarter := main.rotation_x_4(math.PI/4)
-    full_quarter := main.rotation_x_4(math.PI/2)
+    half_quarter := main.rotation_x(math.PI/4)
+    full_quarter := main.rotation_x(math.PI/2)
 
     testing.expect_value(
         t,
@@ -369,7 +369,7 @@ rotating_a_point_around_the_x_axis :: proc(t: ^testing.T) {
 @(test)
 inverse_of_an_x_rotation_rotates_in_opposite_direction :: proc(t: ^testing.T) {
     p := main.point(0, 1, 0)
-    half_quarter := main.rotation_x_4(math.PI/4)
+    half_quarter := main.rotation_x(math.PI/4)
     inv := linalg.inverse(half_quarter)
 
     testing.expect(
@@ -377,6 +377,28 @@ inverse_of_an_x_rotation_rotates_in_opposite_direction :: proc(t: ^testing.T) {
         main.deeply_approx_equal_4(
             main.multiply_matrix_and_tuple4(inv, p),
             main.point(0, math.sqrt_f32(2)/2, -math.sqrt_f32(2)/2)
+        )
+    )
+}
+
+
+@(test)
+rotating_a_point_around_the_y_axis :: proc(t: ^testing.T) {
+    p := main.point(0, 0, 1)
+    half_quarter := main.rotation_y(math.PI/4)
+    full_quarter := main.rotation_y(math.PI/2)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(half_quarter, p),
+        main.point(math.sqrt_f32(2)/2, 0, math.sqrt_f32(2)/2)
+    )
+
+    testing.expect(
+        t,
+        main.deeply_approx_equal_4(
+            main.multiply_matrix_and_tuple4(full_quarter, p),
+            main.point(1, 0, 0)
         )
     )
 }
