@@ -1,6 +1,7 @@
 package tests
 
 import "core:fmt"
+import "core:math"
 import "core:math/linalg"
 import "core:testing"
 import main ".."
@@ -322,3 +323,34 @@ reflection_is_scaling_by_a_negative_value :: proc(t: ^testing.T) {
 
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(-2, 3, 4))
 }
+
+rotating_a_point_around_the_x_axis :: proc(t: ^testing.T) {
+    p := main.point(0, 1, 0)
+    half_quarter := main.rotation_x(math.PI/4)
+    full_quarter := main.rotation_x(math.PI/2)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(half_quarter, p),
+        main.point(0, math.sqrt_f32(2)/2, math.sqrt_f32(2)/2)
+    )
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(half_quarter, p),
+        main.point(0, math.sqrt_f32(2)/2, math.sqrt_f32(2)/2)
+    )
+}
+
+inverse_of_an_x_rotation_rotates_in_opposite_direction :: proc(t: ^testing.T) {
+    p := main.point(0, 1, 0)
+    half_quarter := main.rotation_x(math.PI/4)
+    inv := linalg.inverse(half_quarter)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(inv, p),
+        main.point(0, math.sqrt_f32(2)/2, -math.sqrt_f32(2)/2)
+    )
+}
+
