@@ -316,3 +316,9 @@ multiply_by_the_inverse_of_a_scaling_matrix :: proc(t: ^testing.T) {
    
 }
 
+reflection_is_scaling_by_a_negative_value :: proc(t: ^testing.T) {
+    transform := main.scaling(-1, 1, 1)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(-2, 3, 4))
+}
