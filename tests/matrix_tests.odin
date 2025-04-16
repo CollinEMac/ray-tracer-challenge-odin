@@ -381,7 +381,6 @@ inverse_of_an_x_rotation_rotates_in_opposite_direction :: proc(t: ^testing.T) {
     )
 }
 
-
 @(test)
 rotating_a_point_around_the_y_axis :: proc(t: ^testing.T) {
     p := main.point(0, 0, 1)
@@ -399,6 +398,27 @@ rotating_a_point_around_the_y_axis :: proc(t: ^testing.T) {
         main.deeply_approx_equal_4(
             main.multiply_matrix_and_tuple4(full_quarter, p),
             main.point(1, 0, 0)
+        )
+    )
+}
+
+@(test)
+rotating_a_point_around_the_z_axis :: proc(t: ^testing.T) {
+    p := main.point(0, 1, 0)
+    half_quarter := main.rotation_z(math.PI/4)
+    full_quarter := main.rotation_z(math.PI/2)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(half_quarter, p),
+        main.point(-math.sqrt_f32(2)/2, math.sqrt_f32(2)/2, 0)
+    )
+
+    testing.expect(
+        t,
+        main.deeply_approx_equal_4(
+            main.multiply_matrix_and_tuple4(full_quarter, p),
+            main.point(-1, 0, 0)
         )
     )
 }
