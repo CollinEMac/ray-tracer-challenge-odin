@@ -20,7 +20,7 @@ adding_colors :: proc(t:^testing.T) {
     c2 := main.color(0.7, 0.1, 0.25)
 
     testing.expect(t,
-        deeply_approx_equal(main.add(c1, c2), main.color(1.6, 0.7, 1.0))
+        main.deeply_approx_equal(main.add(c1, c2), main.color(1.6, 0.7, 1.0))
     )
 }
 
@@ -30,7 +30,7 @@ subtracting_colors :: proc(t:^testing.T) {
     c2 := main.color(0.7, 0.1, 0.25)
 
     testing.expect(t,
-        deeply_approx_equal(main.subtract(c1, c2), main.color(0.2, 0.5, 0.5))
+        main.deeply_approx_equal(main.subtract(c1, c2), main.color(0.2, 0.5, 0.5))
     )
 
 }
@@ -47,7 +47,7 @@ multiply_colors :: proc(t:^testing.T) {
     c1 := main.color(1, 0.2, 0.4)
     c2 := main.color(0.9, 1, 0.1)
 
-    testing.expect(t, deeply_approx_equal(main.hadamard(c1, c2), main.color(0.9, 0.2, 0.04)))
+    testing.expect(t, main.deeply_approx_equal(main.hadamard(c1, c2), main.color(0.9, 0.2, 0.04)))
 }
 
 @(test)
@@ -114,8 +114,6 @@ construct_ppm_pixel_data :: proc(t: ^testing.T) {
 
     ppm_lines := strings.split(ppm, "\n")
     defer delete(ppm_lines)
-
-    fmt.println(ppm)
 
     testing.expect_value(
         t,

@@ -260,9 +260,9 @@ calculate_the_inverse_of_a_matrix :: proc(t: ^testing.T) {
 
     testing.expect(t, main.approx_equal(linalg.determinant(a), 532))
     testing.expect(t, main.approx_equal(main.cofactor_4x4(a, 2, 3), -160))
-    testing.expect(t, main.approx_equal(b[3, 2], -0.30075189))  // Use the exact output value
+    testing.expect(t, main.approx_equal(b[3,2], -160.0/532.0))
     testing.expect(t, main.approx_equal(main.cofactor_4x4(a, 3, 2), 105))
-    testing.expect(t, main.approx_equal(b[2, 3], 0.197368428))  // Use the exact output value
+    testing.expect(t, main.approx_equal(b[2,3], 105.0/532.0))
 }
 
 @(test)

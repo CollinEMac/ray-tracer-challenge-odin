@@ -167,7 +167,7 @@ normalize_vector :: proc(t: ^testing.T) {
 get_mag_of_normalized_vector :: proc(t: ^testing.T) {
     v := main.vector(1, 2, 3)
     norm := main.norm(v)
-    testing.expect(t, approx_equal(main.mag(norm), 1))
+    testing.expect(t, main.approx_equal(main.mag(norm), 1))
 }
 
 @(test)

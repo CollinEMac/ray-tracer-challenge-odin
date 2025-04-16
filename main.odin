@@ -31,7 +31,7 @@ main :: proc() {
     save_ppm(ppm, "output.ppm")
 }
 
-EPSILON := f32(1e-4)
+EPSILON : f32 = 0.0001
 
 IDENTITY_MATRIX_3 := matrix[3, 3]f32{
     1, 0, 0,
