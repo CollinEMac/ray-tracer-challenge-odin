@@ -31,7 +31,15 @@ main :: proc() {
     save_ppm(ppm, "output.ppm")
 }
 
-IDENTITY_MATRIX := matrix[4,4]f32{
+EPSILON := f32(1e-4)
+
+IDENTITY_MATRIX_3 := matrix[3, 3]f32{
+    1, 0, 0,
+    0, 1, 0,
+    0, 0, 1,
+}
+
+IDENTITY_MATRIX_4 := matrix[4,4]f32{
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
@@ -67,6 +75,49 @@ is_vector :: proc(tuple: Tuple4) -> bool {
 
 equals :: proc(tuple1, tuple2: $T) -> bool {
     return tuple1 == tuple2
+}
+
+approx_equal :: proc(a, b: f32) -> bool {
+    // For values near zero
+    if math.abs(a) < EPSILON && math.abs(b) < EPSILON {
+        return true
+    }
+    
+    // For regular comparisons, use relative difference
+    relative_diff := math.abs(a - b) / math.max(math.abs(a), math.abs(b))
+    return relative_diff < EPSILON
+}
+
+deeply_approx_equal :: proc (a, b: Tuple3) -> bool {
+    if approx_equal(a.x, b.x) &&
+        approx_equal(a.y, b.y) &&
+        approx_equal(a.z, b.z) {
+        return true
+    }
+    return false
+}
+
+deeply_approx_equal_4 :: proc (a, b: Tuple4) -> bool {
+    if approx_equal(a.x, b.x) &&
+        approx_equal(a.y, b.y) &&
+        approx_equal(a.z, b.z) &&
+        approx_equal(a.w, a.w) {
+        return true
+    }
+    return false
+}
+
+// Helper function for matrix comparison with epsilon
+matrix_approx_equal :: proc(a, b: matrix[$R, $C]$E) -> bool {
+    for r in 0..<R {
+        for c in 0..<C {
+            diff := a[r, c] - b[r, c]
+            if abs(diff) > EPSILON{
+                return false
+            }
+        }
+    }
+    return true
 }
 
 add :: proc{add3, add4}
@@ -169,33 +220,47 @@ multiply_matrix_and_tuple4 :: proc(a: matrix[4,4]f32, b: Tuple4) -> Tuple4{
     return Tuple4 { product[0,0], product[1,0], product[2,0], product[3,0] }
 }
 
-submatrix_2x2 :: proc(src: $M/matrix[$R, $C]$E, row_start, col_start: int) -> matrix[2, 2]E {
-    assert(row_start >= 0 && row_start + 2 <= R, "Row range out of bounds")
-    assert(col_start >= 0 && col_start + 2 <= C, "Column range out of bounds")
+submatrix_2x2 :: proc(src: matrix[3, 3]$E, row_to_remove, col_to_remove: int) -> matrix[2, 2]E {
+    assert(row_to_remove >= 0 && row_to_remove < 3, "Row index out of bounds")
+    assert(col_to_remove >= 0 && col_to_remove < 3, "Column index out of bounds")
     
     result: matrix[2, 2]E
     
-    for r in 0..<2 {
-        for c in 0..<2 {
-            result[r, c] = src[row_start + r, col_start + c]
+    dest_row := 0
+    for src_row in 0..<3 {
+        if src_row == row_to_remove do continue
+        
+        dest_col := 0
+        for src_col in 0..<3 {
+            if src_col == col_to_remove do continue
+            
+            result[dest_row, dest_col] = src[src_row, src_col]
+            dest_col += 1
         }
+        dest_row += 1
     }
-    
     return result
 }
 
-submatrix_3x3 :: proc(src: $M/matrix[$R, $C]$E, row_start, col_start: int) -> matrix[3, 3]E {
-    assert(row_start >= 0 && row_start + 3 <= R, "Row range out of bounds")
-    assert(col_start >= 0 && col_start + 3 <= C, "Column range out of bounds")
+submatrix_3x3 :: proc(src: matrix[4, 4]$E, row_to_remove, col_to_remove: int) -> matrix[3, 3]E {
+    assert(row_to_remove >= 0 && row_to_remove < 4, "Row index out of bounds")
+    assert(col_to_remove >= 0 && col_to_remove < 4, "Column index out of bounds")
     
     result: matrix[3, 3]E
     
-    for r in 0..<3 {
-        for c in 0..<3 {
-            result[r, c] = src[row_start + r, col_start + c]
+    dest_row := 0
+    for src_row in 0..<4 {
+        if src_row == row_to_remove do continue
+        
+        dest_col := 0
+        for src_col in 0..<4 {
+            if src_col == col_to_remove do continue
+            
+            result[dest_row, dest_col] = src[src_row, src_col]
+            dest_col += 1
         }
+        dest_row += 1
     }
-    
     return result
 }
 
@@ -212,12 +277,10 @@ cofactor_3x3 :: proc(a: matrix[3, 3]f32, row, column: int) -> f32 {
 cofactor_4x4 :: proc(a: matrix[4, 4]f32, row, column: int) -> f32 {
     // returns the minor if even, negative minor if odd
     minor := linalg.matrix_minor(a, row, column)
-    if (row + column % 2 == 0) {
+    if ((row + column) % 2 == 0) {
         return minor
     } else {
         return -minor
     }
 }
-
-
 

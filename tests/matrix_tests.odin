@@ -63,12 +63,13 @@ matrix_inequality :: proc(t: ^testing.T) {
     testing.expect(t, m1 != m2)
 }
 
+@(test)
 multiplying_two_matrices :: proc(t: ^testing.T) {
     m1 := matrix[4, 4]f32 {
         1, 2, 3, 4,
-        5.5, 6.5, 7.5, 8.5,
-        9, 10, 11, 12,
-        13.5, 14.5, 15.5, 16.5
+        5, 6, 7, 8,
+        9, 8, 7, 6,
+        5, 4, 3, 2
     }
 
     m2 := matrix[4, 4]f32 {
@@ -88,6 +89,7 @@ multiplying_two_matrices :: proc(t: ^testing.T) {
     testing.expect_value(t, m1*m2, result)
 }
 
+@(test)
 multiply_a_matrix_by_a_tuple :: proc(t: ^testing.T) {
     m := matrix[4, 4]f32 {
         1, 2, 3, 4,
@@ -101,6 +103,7 @@ multiply_a_matrix_by_a_tuple :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(m, b), main.Tuple4 { 18, 24, 33, 1 })
 }
 
+@(test)
 multiply_a_matrix_by_the_identity_matrix ::  proc(t: ^testing.T) {
     m := matrix[4, 4]f32{
         0, 1, 2, 4,
@@ -109,9 +112,10 @@ multiply_a_matrix_by_the_identity_matrix ::  proc(t: ^testing.T) {
         4, 8, 16, 32
     }
 
-    testing.expect_value(t, m * main.IDENTITY_MATRIX, m)
+    testing.expect_value(t, m * main.IDENTITY_MATRIX_4, m)
 }
 
+@(test)
 transpose_a_matrix :: proc(t: ^testing.T) {
     m := matrix[4,4]f32{
         0, 9, 3, 0,
@@ -132,14 +136,16 @@ transpose_a_matrix :: proc(t: ^testing.T) {
     )
 }
 
+@(test)
 transpose_the_identity_matrix :: proc(t: ^testing.T) {
     testing.expect_value(
         t,
-        linalg.transpose(main.IDENTITY_MATRIX),
-        main.IDENTITY_MATRIX
+        linalg.transpose(main.IDENTITY_MATRIX_4),
+        main.IDENTITY_MATRIX_4
     )
 }
 
+@(test)
 determinant_of_a_matrix :: proc(t: ^testing.T) {
     m := matrix[2,2]f32{
         1, 5,
@@ -149,6 +155,7 @@ determinant_of_a_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, linalg.determinant(m), 17)
 }
 
+@(test)
 submatrix_of_a_3x3_matrix_is_a_2x2_matrix :: proc(t: ^testing.T) {
     m := matrix[3, 3]f32{
         1, 5, 0,
@@ -164,6 +171,7 @@ submatrix_of_a_3x3_matrix_is_a_2x2_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.submatrix_2x2(m, 0, 2), result)
 }
 
+@(test)
 submatrix_of_a_4x4_matrix_is_a_3x3_matrix :: proc(t: ^testing.T) {
     m := matrix[4, 4]f32{
         -6, 1, 1, 6,
@@ -182,6 +190,7 @@ submatrix_of_a_4x4_matrix_is_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.submatrix_3x3(m, 2, 1), result)
 }
 
+@(test)
 calculate_the_minor_of_a_3x3_matrix :: proc(t: ^testing.T) {
     a := matrix[3, 3]f32{
         3, 5, 0,
@@ -195,6 +204,7 @@ calculate_the_minor_of_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, linalg.matrix_minor(a, 1, 0), 25)
 }
 
+@(test)
 calculate_a_cofactor_of_a_3x3_matrix :: proc(t: ^testing.T) {
     a := matrix[3, 3]f32{
         3, 5, 0,
@@ -208,6 +218,7 @@ calculate_a_cofactor_of_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.cofactor_3x3(a, 1, 0), -25)
 }
 
+@(test)
 calculate_the_determinant_of_a_3x3_matrix :: proc(t: ^testing.T) {
     a := matrix[3, 3]f32{
         1, 2, 6,
@@ -221,37 +232,40 @@ calculate_the_determinant_of_a_3x3_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, linalg.determinant(a), -196)
 }
 
+@(test)
 calculate_the_determinant_of_a_4x4_matrix :: proc(t: ^testing.T) {
     a := matrix[4, 4]f32{
         -2, -8, 3, 5,
         -3, 1, 7, 3,
         1, 2, -9, 6,
-        -6, 7, -7, -9
+        -6, 7, 7, -9
     }
 
     testing.expect_value(t, main.cofactor_4x4(a, 0, 0), 690)
     testing.expect_value(t, main.cofactor_4x4(a, 0, 1), 447)
     testing.expect_value(t, main.cofactor_4x4(a, 0, 2), 210)
-    testing.expect_value(t, main.cofactor_4x4(a, 0, 2), 51)
+    testing.expect_value(t, main.cofactor_4x4(a, 0, 3), 51)
     testing.expect_value(t, linalg.determinant(a), -4071)
 }
 
+@(test)
 calculate_the_inverse_of_a_matrix :: proc(t: ^testing.T) {
     a := matrix[4, 4]f32{
         -5, 2, 6, -8,
         1, -5, 1, 8,
-        7, 7, -6, -8,
+        7, 7, -6, -7,
         1, -3, 7, 4
     }
     b := linalg.inverse(a)
 
-    testing.expect_value(t, linalg.determinant(a), 532)
-    testing.expect_value(t, main.cofactor_4x4(a, 2, 3), -160)
-    testing.expect_value(t, b[3,2], -160/532)
-    testing.expect_value(t, main.cofactor_4x4(a, 3, 2), 105)
-    testing.expect_value(t, b[2,3], 105/532)
+    testing.expect(t, main.approx_equal(linalg.determinant(a), 532))
+    testing.expect(t, main.approx_equal(main.cofactor_4x4(a, 2, 3), -160))
+    testing.expect(t, main.approx_equal(b[3, 2], -0.30075189))  // Use the exact output value
+    testing.expect(t, main.approx_equal(main.cofactor_4x4(a, 3, 2), 105))
+    testing.expect(t, main.approx_equal(b[2, 3], 0.197368428))  // Use the exact output value
 }
 
+@(test)
 multiply_a_product_by_its_inverse :: proc(t: ^testing.T) {
     a := matrix[4, 4]f32{
         3, -9, 7, 3,
@@ -269,9 +283,10 @@ multiply_a_product_by_its_inverse :: proc(t: ^testing.T) {
 
     c := a * b
 
-    testing.expect_value(t, c * linalg.inverse(b), a)
+    testing.expect(t, main.matrix_approx_equal(c * linalg.inverse(b), a))
 }
 
+@(test)
 multiply_by_a_translation_matrix :: proc(t: ^testing.T) {
     transform := main.translation(5, -3, 2)
     p := main.point(-3, 4, 5)
@@ -279,6 +294,7 @@ multiply_by_a_translation_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(2,1,7))
 }
 
+@(test)
 mutiply_by_the_inverse_of_a_translation_matrix :: proc(t: ^testing.T) {
     transform := main.translation(5, -3, 2)
     inv := linalg.inverse(transform)
@@ -287,6 +303,7 @@ mutiply_by_the_inverse_of_a_translation_matrix :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(inv, p), main.point(-8,7,3))
 }
 
+@(test)
 translation_does_not_affect_vectors :: proc(t: ^testing.T) {
     transform := main.translation(5, -3, 2)
     v := main.vector(-3, 4, 5)
@@ -294,6 +311,7 @@ translation_does_not_affect_vectors :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, v), v)
 }
 
+@(test)
 scaling_matrix_applied_to_a_point :: proc(t: ^testing.T) {
     transform := main.scaling(2, 3, 4)
     p := main.point(-4, 6, 8)
@@ -301,6 +319,7 @@ scaling_matrix_applied_to_a_point :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(-8, 18, 32))
 }
 
+@(test)
 scaling_matrix_applied_to_a_vector :: proc(t: ^testing.T) {
     transform := main.scaling(2, 3, 4)
     v := main.vector(-4, 6, 8)
@@ -308,6 +327,7 @@ scaling_matrix_applied_to_a_vector :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, v), main.vector(-8, 18, 32))
 }
 
+@(test)
 multiply_by_the_inverse_of_a_scaling_matrix :: proc(t: ^testing.T) {
     transform := main.scaling(2, 3, 4)
     inv := linalg.inverse(transform)
@@ -317,6 +337,7 @@ multiply_by_the_inverse_of_a_scaling_matrix :: proc(t: ^testing.T) {
    
 }
 
+@(test)
 reflection_is_scaling_by_a_negative_value :: proc(t: ^testing.T) {
     transform := main.scaling(-1, 1, 1)
     p := main.point(2, 3, 4)
@@ -324,10 +345,11 @@ reflection_is_scaling_by_a_negative_value :: proc(t: ^testing.T) {
     testing.expect_value(t, main.multiply_matrix_and_tuple4(transform, p), main.point(-2, 3, 4))
 }
 
+@(test)
 rotating_a_point_around_the_x_axis :: proc(t: ^testing.T) {
     p := main.point(0, 1, 0)
-    half_quarter := main.rotation_x(math.PI/4)
-    full_quarter := main.rotation_x(math.PI/2)
+    half_quarter := main.rotation_x_4(math.PI/4)
+    full_quarter := main.rotation_x_4(math.PI/2)
 
     testing.expect_value(
         t,
@@ -335,22 +357,27 @@ rotating_a_point_around_the_x_axis :: proc(t: ^testing.T) {
         main.point(0, math.sqrt_f32(2)/2, math.sqrt_f32(2)/2)
     )
 
-    testing.expect_value(
+    testing.expect(
         t,
-        main.multiply_matrix_and_tuple4(half_quarter, p),
-        main.point(0, math.sqrt_f32(2)/2, math.sqrt_f32(2)/2)
+        main.deeply_approx_equal_4(
+            main.multiply_matrix_and_tuple4(half_quarter, p),
+            main.point(0, math.sqrt_f32(2)/2, math.sqrt_f32(2)/2)
+        )
     )
 }
 
+@(test)
 inverse_of_an_x_rotation_rotates_in_opposite_direction :: proc(t: ^testing.T) {
     p := main.point(0, 1, 0)
-    half_quarter := main.rotation_x(math.PI/4)
+    half_quarter := main.rotation_x_4(math.PI/4)
     inv := linalg.inverse(half_quarter)
 
-    testing.expect_value(
+    testing.expect(
         t,
-        main.multiply_matrix_and_tuple4(inv, p),
-        main.point(0, math.sqrt_f32(2)/2, -math.sqrt_f32(2)/2)
+        main.deeply_approx_equal_4(
+            main.multiply_matrix_and_tuple4(inv, p),
+            main.point(0, math.sqrt_f32(2)/2, -math.sqrt_f32(2)/2)
+        )
     )
 }
 
