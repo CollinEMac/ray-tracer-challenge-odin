@@ -436,3 +436,62 @@ a_shearing_transformation_moves_x_in_proportion_to_y :: proc(t: ^testing.T) {
     )
 }
 
+@(test)
+a_shearing_transformation_moves_x_in_proportion_to_z :: proc(t: ^testing.T) {
+    transform := main.shearing(0, 1, 0, 0, 0, 0)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(transform,p),
+        main.point(6, 3, 4)
+    )
+}
+
+@(test)
+a_shearing_transformation_moves_y_in_proportion_to_x :: proc(t: ^testing.T) {
+    transform := main.shearing(0, 0, 1, 0, 0, 0)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(transform,p),
+        main.point(2, 5, 4)
+    )
+}
+
+@(test)
+a_shearing_transformation_moves_y_in_proportion_to_z :: proc(t: ^testing.T) {
+    transform := main.shearing(0, 0, 0, 1, 0, 0)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(transform,p),
+        main.point(2, 7, 4)
+    )
+}
+
+@(test)
+a_shearing_transformation_moves_z_in_proportion_to_x :: proc(t: ^testing.T) {
+    transform := main.shearing(0, 0, 0, 0, 1, 0)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(transform,p),
+        main.point(2, 3, 6)
+    )
+}
+
+@(test)
+a_shearing_transformation_moves_z_in_proportion_to_y :: proc(t: ^testing.T) {
+    transform := main.shearing(0, 0, 0, 0, 0, 1)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(transform,p),
+        main.point(2, 3, 7)
+    )
+}
