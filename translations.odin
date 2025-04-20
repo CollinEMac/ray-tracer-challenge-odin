@@ -47,3 +47,14 @@ rotation_z :: proc(r: f32) -> matrix[4,4]f32 {
     return m
 }
 
+shearing :: proc(xy, xz, yx, yz, zx, zy: f32) -> matrix[4,4]f32 {
+    m := IDENTITY_MATRIX_4
+    m[0, 1] = xy
+    m[0, 2] = xz
+    m[1, 0] = yx
+    m[1, 2] = yz
+    m[2, 0] = zx
+    m[2, 1] = zy
+    return m
+}
+

@@ -424,3 +424,15 @@ rotating_a_point_around_the_z_axis :: proc(t: ^testing.T) {
     )
 }
 
+@(test)
+a_shearing_transformation_moves_x_in_proportion_to_y :: proc(t: ^testing.T) {
+    transform := main.shearing(1, 0, 0, 0, 0, 0)
+    p := main.point(2, 3, 4)
+
+    testing.expect_value(
+        t,
+        main.multiply_matrix_and_tuple4(transform,p),
+        main.point(5, 3, 4)
+    )
+}
+
