@@ -495,3 +495,57 @@ a_shearing_transformation_moves_z_in_proportion_to_y :: proc(t: ^testing.T) {
         main.point(2, 3, 7)
     )
 }
+
+@(test)
+individual_transformations_are_applied_in_sequence :: proc(t: ^testing.T) {
+    p := main.point(1, 0, 1)
+    a := main.rotation_x(math.PI / 2)
+    b := main.scaling(5, 5, 5)
+    c := main.translation(10, 5, 7)
+
+    p2 := main.multiply_matrix_and_tuple4(a, p)
+    testing.expect(
+        t,
+        helpers.deeply_approx_equal_4(
+            p2,
+            main.point(1, -1, 0)
+        )
+    )
+
+    p3 := main.multiply_matrix_and_tuple4(b, p2)
+    testing.expect(
+        t,
+        helpers.deeply_approx_equal_4(
+            p3,
+            main.point(5, -5, 0)
+        )
+    )
+
+    p4 := main.multiply_matrix_and_tuple4(c, p3)
+    testing.expect(
+        t,
+        helpers.deeply_approx_equal_4(
+            p4,
+            main.point(15, 0, 7)
+        )
+    )
+}
+
+@(test)
+chained_transformations_must_be_applied_in_reverse_order :: proc(t: ^testing.T) {
+    p := main.point(1, 0, 1)
+    a := main.rotation_x(math.PI / 2)
+    b := main.scaling(5, 5, 5)
+    c := main.translation(10, 5, 7)
+
+    d := c * b * a
+    testing.expect(
+        t,
+        helpers.deeply_approx_equal_4(
+            main.multiply_matrix_and_tuple4(d, p),
+            main.point(15, 0, 7)
+        )
+    )
+
+}
+
