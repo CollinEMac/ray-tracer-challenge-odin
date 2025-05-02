@@ -6,29 +6,68 @@ import "core:math/linalg"
 
 main :: proc() {
     // using this as sort of a playground for now
-    p := Projectile { point(0, 1, 0), mult4(norm(vector(1, 1.8, 0)), 11.25) }
-    e := Environment { vector(0, -0.1, 0), vector(-0.01, 0, 0) }
-    w := 900
-    h := 500
-    c := canvas(w, h)
-    defer destroy_canvas(c)
-    red := color(1, 0, 0)
 
-    i := 0
-    for i < 197 {
-        p = tick(e, p)
-        fmt.printf("X Position: %f ", p.position.x)
-        fmt.printf("Y Position: %f ", p.position.y)
-        x := int(p.position.x)
-        y := int(p.position.y)
-        if (x <= w && y <= h) {
-            write_pixel(c, x, h - y, red)
-        }
-        i += 1
+    // End of Chapter 4
+    w := 900
+    half_w := f32(w/2)
+    c := canvas(w, w)
+    defer destroy_canvas(c)
+    color := color(1, 0, 1)
+
+    // make radius 3/8 the canvas width
+    radius := f32(w) * 3 / 8
+
+    for hour := 0; hour < 12; hour += 1 {
+        point := point(0, -1, 0)
+
+        // rotate
+        point = multiply_matrix_and_tuple4(
+            rotation_z(f32(hour) * math.PI/6),
+            point
+        )
+
+        // scale
+        point = multiply_matrix_and_tuple4(
+            scaling(radius, radius, 0),
+            point
+        )
+
+        // translate
+        point = multiply_matrix_and_tuple4(
+            translation(half_w, half_w, 0),
+            point
+        )
+
+        write_pixel(c, int(point.x), int(point.y), color)
     }
 
     ppm := canvas_to_ppm(c)
     save_ppm(ppm, "output.ppm")
+
+    ///////// Project firing (End of chapter 2)
+    // p := Projectile { point(0, 1, 0), mult4(norm(vector(1, 1.8, 0)), 11.25) }
+    // e := Environment { vector(0, -0.1, 0), vector(-0.01, 0, 0) }
+    // w := 900
+    // h := 500
+    // c := canvas(w, h)
+    // defer destroy_canvas(c)
+    // red := color(1, 0, 0)
+    //
+    // i := 0
+    // for i < 197 {
+    //     p = tick(e, p)
+    //     fmt.printf("X Position: %f ", p.position.x)
+    //     fmt.printf("Y Position: %f ", p.position.y)
+    //     x := int(p.position.x)
+    //     y := int(p.position.y)
+    //     if (x <= w && y <= h) {
+    //         write_pixel(c, x, h - y, red)
+    //     }
+    //     i += 1
+    // }
+    //
+    // ppm := canvas_to_ppm(c)
+    // save_ppm(ppm, "output.ppm")
 }
 
 IDENTITY_MATRIX_3 := matrix[3, 3]f32{
