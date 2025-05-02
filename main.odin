@@ -94,6 +94,10 @@ Tuple4 :: struct {
 Point :: Tuple4
 Vector :: Tuple4
 
+Ray :: struct {
+    origin, direction: Tuple4
+}
+
 point :: proc(x, y, z: f32) -> Point {
     return Point{ x, y, z, 1.0 }
 }
@@ -108,6 +112,10 @@ vector :: proc(x, y, z: f32) -> Vector {
 
 is_vector :: proc(tuple: Tuple4) -> bool {
     return tuple.w == 0.0
+}
+
+ray :: proc(origin, direction: Tuple4) -> Ray {
+    return Ray{ origin, direction }
 }
 
 equals :: proc(tuple1, tuple2: $T) -> bool {
