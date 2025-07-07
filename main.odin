@@ -98,6 +98,13 @@ Ray :: struct {
     origin, direction: Tuple4
 }
 
+Sphere :: struct {}
+
+Intersections :: struct {
+    count: int,
+    values: [2]f32
+}
+
 point :: proc(x, y, z: f32) -> Point {
     return Point{ x, y, z, 1.0 }
 }
@@ -116,6 +123,10 @@ is_vector :: proc(tuple: Tuple4) -> bool {
 
 ray :: proc(origin, direction: Tuple4) -> Ray {
     return Ray{ origin, direction }
+}
+
+sphere :: proc() -> Sphere {
+    return Sphere{}
 }
 
 equals :: proc(tuple1, tuple2: $T) -> bool {
@@ -288,5 +299,24 @@ cofactor_4x4 :: proc(a: matrix[4, 4]f32, row, column: int) -> f32 {
 
 position :: proc(r: Ray, t: f32) -> Point {
     return add4(r.origin, mult4(r.direction, t))
+}
+
+intersect :: proc(s: Sphere, r: Ray) -> Intersections {
+    // The vector from the sphere's center (centered at origin)
+    sphere_to_ray := subtract4(r.origin, point(0, 0, 0))
+
+    a := dot(r.direction, r.direction)
+    b := 2 * dot(r.direction, sphere_to_ray)
+    c := dot(sphere_to_ray, sphere_to_ray) - 1
+
+    discriminant := math.pow(b, 2) - 4 * a * c
+
+    if (discriminant < 0) {
+      return Intersections{count = 0}
+    }
+
+    t1 := (-b - math.sqrt(discriminant))/(2 * a)
+    t2 := (-b + math.sqrt(discriminant))/(2 * a)
+    return Intersections{count = 2, values = {t1, t2}} 
 }
 
