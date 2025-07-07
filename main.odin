@@ -241,7 +241,7 @@ submatrix_2x2 :: proc(src: matrix[3, 3]$E, row_to_remove, col_to_remove: int) ->
         }
         dest_row += 1
     }
-    return result
+return result
 }
 
 submatrix_3x3 :: proc(src: matrix[4, 4]$E, row_to_remove, col_to_remove: int) -> matrix[3, 3]E {
@@ -284,5 +284,9 @@ cofactor_4x4 :: proc(a: matrix[4, 4]f32, row, column: int) -> f32 {
     } else {
         return -minor
     }
+}
+
+position :: proc(r: Ray, t: f32) -> Point {
+    return add4(r.origin, mult4(r.direction, t))
 }
 
