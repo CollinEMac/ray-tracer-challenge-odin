@@ -100,6 +100,15 @@ Ray :: struct {
 
 Sphere :: struct {}
 
+Object :: union {
+  Sphere,
+}
+
+Intersection :: struct {
+  t: f32,
+  object: Object 
+}
+
 Intersections :: struct {
     count: int,
     values: [2]f32
@@ -127,6 +136,10 @@ ray :: proc(origin, direction: Tuple4) -> Ray {
 
 sphere :: proc() -> Sphere {
     return Sphere{}
+}
+
+intersection :: proc(t: f32, object: Object) -> Intersection {
+    return Intersection{t, object}
 }
 
 equals :: proc(tuple1, tuple2: $T) -> bool {

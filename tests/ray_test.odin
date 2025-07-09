@@ -82,3 +82,12 @@ a_sphere_is_behind_an_array :: proc(t: ^testing.T) {
     testing.expect_value(t, xs.values[1], -4.0)
 }
 
+@(test)
+an_intersection_encapsulates_t_and_object :: proc(t: ^testing.T) {
+    s := main.sphere()
+    i := main.intersection(3.5, s)
+
+    testing.expect_value(t, i.t, 3.5)
+    testing.expect_value(t, i.object, s)
+}
+
