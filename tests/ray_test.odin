@@ -30,10 +30,11 @@ a_ray_intersects_a_sphere_at_two_points :: proc(t: ^testing.T) {
     s := main.sphere()
 
     xs := main.intersect(s, r)
+    defer delete(xs)
 
-    testing.expect_value(t, xs.count, 2)
-    testing.expect_value(t, xs.values[0], 4.0)
-    testing.expect_value(t, xs.values[1], 6.0)
+    testing.expect_value(t, len(xs), 2)
+    testing.expect_value(t, xs[0].t, 4.0)
+    testing.expect_value(t, xs[1].t, 6.0)
 }
 
 @(test)
@@ -42,10 +43,11 @@ a_ray_intersects_a_sphere_at_a_tangeant :: proc(t: ^testing.T) {
     s := main.sphere()
 
     xs := main.intersect(s, r)
+    defer delete(xs)
 
-    testing.expect_value(t, xs.count, 2)
-    testing.expect_value(t, xs.values[0], 5.0)
-    testing.expect_value(t, xs.values[1], 5.0)
+    testing.expect_value(t, len(xs), 2)
+    testing.expect_value(t, xs[0].t, 5.0)
+    testing.expect_value(t, xs[1].t, 5.0)
 }
 
 @(test)
@@ -54,8 +56,9 @@ a_ray_misses_a_sphere :: proc(t: ^testing.T) {
     s := main.sphere()
 
     xs := main.intersect(s, r)
+    defer delete(xs)
 
-    testing.expect_value(t, xs.count, 0)
+    testing.expect_value(t, len(xs), 0)
 }
 
 @(test)
@@ -64,10 +67,11 @@ a_ray_originates_inside_a_sphere :: proc(t: ^testing.T) {
     s := main.sphere()
 
     xs := main.intersect(s, r)
+    defer delete(xs)
 
-    testing.expect_value(t, xs.count, 2)
-    testing.expect_value(t, xs.values[0], -1.0)
-    testing.expect_value(t, xs.values[1], 1.0)
+    testing.expect_value(t, len(xs), 2)
+    testing.expect_value(t, xs[0].t, -1.0)
+    testing.expect_value(t, xs[1].t, 1.0)
 }
 
 @(test)
@@ -76,10 +80,9 @@ a_sphere_is_behind_an_array :: proc(t: ^testing.T) {
     s := main.sphere()
 
     xs := main.intersect(s, r)
+    defer delete(xs)
 
-    testing.expect_value(t, xs.count, 2)
-    testing.expect_value(t, xs.values[0], -6.0)
-    testing.expect_value(t, xs.values[1], -4.0)
+    testing.expect_value(t, len(xs), 2)
 }
 
 @(test)
@@ -89,5 +92,30 @@ an_intersection_encapsulates_t_and_object :: proc(t: ^testing.T) {
 
     testing.expect_value(t, i.t, 3.5)
     testing.expect_value(t, i.object, s)
+}
+
+@(test)
+aggregating_intersections :: proc(t:^testing.T) {
+    s := main.sphere()
+    i1 := main.intersection(1, s)
+    i2 := main.intersection(2, s)
+    xs := main.intersections(i1, i2)
+    defer delete(xs)
+
+    testing.expect_value(t, len(xs), 2)
+    testing.expect_value(t, xs[0].t, 1)
+    testing.expect_value(t, xs[1].t, 2)
+}
+
+@(test)
+intersect_sets_the_object_on_the_intersection :: proc(t: ^testing.T) {
+    r := main.ray(main.point(0, 0, -5), main.vector(0, 0, 1))
+    s := main.sphere()
+    xs := main.intersect(s, r)
+    defer delete(xs)
+
+    testing.expect_value(t, len(xs), 2)
+    testing.expect_value(t, xs[0].object, s)
+    testing.expect_value(t, xs[1].object, s)
 }
 

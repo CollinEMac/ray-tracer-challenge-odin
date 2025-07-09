@@ -314,7 +314,7 @@ position :: proc(r: Ray, t: f32) -> Point {
     return add4(r.origin, mult4(r.direction, t))
 }
 
-intersect :: proc(s: Sphere, r: Ray) -> Intersections {
+intersect :: proc(s: Sphere, r: Ray) -> []Intersection {
     // The vector from the sphere's center (centered at origin)
     sphere_to_ray := subtract4(r.origin, point(0, 0, 0))
 
@@ -325,11 +325,18 @@ intersect :: proc(s: Sphere, r: Ray) -> Intersections {
     discriminant := math.pow(b, 2) - 4 * a * c
 
     if (discriminant < 0) {
-      return Intersections{count = 0}
+      return []Intersection{}
     }
 
     t1 := (-b - math.sqrt(discriminant))/(2 * a)
     t2 := (-b + math.sqrt(discriminant))/(2 * a)
-    return Intersections{count = 2, values = {t1, t2}} 
+
+    return intersections(intersection(t1, Object(s)), intersection(t2, Object(s))) 
+}
+
+intersections :: proc(is: ..Intersection) -> []Intersection {
+    result := make([]Intersection, len(is))
+    copy(result, is)
+    return result
 }
 
