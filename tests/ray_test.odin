@@ -175,3 +175,23 @@ the_hit_is_always_the_lowest_nonnegative_intersection :: proc(t: ^testing.T) {
     testing.expect_value(t, main.hit(xs), i4)
 }
 
+@(test)
+translating_a_ray :: proc(t: ^testing.T) {
+    r := main.ray(main.point(1, 2, 3), main.vector(0, 1, 0))
+    m := main.translation(3, 4, 5)
+    r2 := main.transform(r, m)
+    
+    testing.expect_value(t, r2.origin, main.point(4, 6, 8))
+    testing.expect_value(t, r2.direction, main.vector(0, 1, 0))
+}
+
+@(test)
+scaling_a_ray :: proc(t: ^testing.T) {
+    r := main.ray(main.point(1, 2, 3), main.vector(0, 1, 0))
+    m := main.scaling(2, 3, 4)
+    r2 := main.transform(r, m)
+    
+    testing.expect_value(t, r2.origin, main.point(2, 6, 12))
+    testing.expect_value(t, r2.direction, main.vector(0, 3, 0))
+}
+

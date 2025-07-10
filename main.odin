@@ -359,3 +359,9 @@ hit :: proc(intersections: []Intersection) -> Maybe(Intersection) {
     return lowest
 }
 
+transform :: proc(r: Ray, m: matrix[4,4]f32) -> Ray {
+    return ray(
+        multiply_matrix_and_tuple4(m, r.origin),
+        multiply_matrix_and_tuple4(m, r.direction)
+    )
+}
