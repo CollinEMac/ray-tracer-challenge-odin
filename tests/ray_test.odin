@@ -195,3 +195,19 @@ scaling_a_ray :: proc(t: ^testing.T) {
     testing.expect_value(t, r2.direction, main.vector(0, 3, 0))
 }
 
+@(test)
+a_spheres_default_transformation :: proc(t: ^testing.T) {
+    s := main.sphere()
+    testing.expect_value(t, s.transform, main.IDENTITY_MATRIX_4)
+}
+
+@(test)
+changing_a_spheres_transformation :: proc(t: ^testing.T) {
+    s := main.sphere()
+    translation := main.translation(2, 3, 4)
+    main.set_transform(&s, translation)
+
+    testing.expect_value(t, s.transform, translation)
+}
+
+

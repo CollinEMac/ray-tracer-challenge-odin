@@ -98,7 +98,9 @@ Ray :: struct {
     origin, direction: Tuple4
 }
 
-Sphere :: struct {}
+Sphere :: struct {
+    transform: matrix[4, 4]f32
+}
 
 Object :: union {
   Sphere,
@@ -129,8 +131,12 @@ ray :: proc(origin, direction: Tuple4) -> Ray {
     return Ray{ origin, direction }
 }
 
-sphere :: proc() -> Sphere {
-    return Sphere{}
+sphere :: proc(t: matrix[4,4]f32 = IDENTITY_MATRIX_4) -> Sphere {
+    return Sphere{t}
+}
+
+set_transform :: proc(s: ^Sphere, t: matrix[4,4]f32 = IDENTITY_MATRIX_4) {
+    s.transform = t
 }
 
 intersection :: proc(t: f32, object: Object) -> Intersection {
