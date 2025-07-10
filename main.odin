@@ -135,6 +135,8 @@ sphere :: proc(t: matrix[4,4]f32 = IDENTITY_MATRIX_4) -> Sphere {
     return Sphere{t}
 }
 
+// I'm not sure why we actually need this... Can't we just 
+// instantiate the sphere with a different transform?
 set_transform :: proc(s: ^Sphere, t: matrix[4,4]f32 = IDENTITY_MATRIX_4) {
     s.transform = t
 }
@@ -316,11 +318,16 @@ position :: proc(r: Ray, t: f32) -> Point {
 }
 
 intersect :: proc(s: Sphere, r: Ray) -> []Intersection {
-    // The vector from the sphere's center (centered at origin)
-    sphere_to_ray := subtract4(r.origin, point(0, 0, 0))
+    // Before doing anything else, apply the INVERSE transformation
+    // of the SPHERE to the RAY.
+    // new_r is our transformed ray, we want to leave the original ray alone.
+    new_r := transform(r, linalg.inverse(s.transform))
 
-    a := dot(r.direction, r.direction)
-    b := 2 * dot(r.direction, sphere_to_ray)
+    // The vector from the sphere's center (centered at origin)
+    sphere_to_ray := subtract4(new_r.origin, point(0, 0, 0))
+
+    a := dot(new_r.direction, new_r.direction)
+    b := 2 * dot(new_r.direction, sphere_to_ray)
     c := dot(sphere_to_ray, sphere_to_ray) - 1
 
     discriminant := math.pow(b, 2) - 4 * a * c

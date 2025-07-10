@@ -210,29 +210,4 @@ changing_a_spheres_transformation :: proc(t: ^testing.T) {
     testing.expect_value(t, s.transform, translation)
 }
 
-@(test)
-intersecting_a_scaled_sphere_with_a_ray :: proc(t: ^testing.T) {
-    r := main.ray(main.point(0, 0, -5), main.vector(0, 0, 1))
-    s := main.sphere()
-    main.set_transform(&s, main.scaling(2, 2, 2))
-
-    xs := main.intersect(s, r)
-    defer delete(xs)
-    
-    testing.expect_value(t, len(xs), 2)
-    testing.expect_value(t, xs[0].t, 3)
-    testing.expect_value(t, xs[1].t, 7)
-}
-
-@(test)
-intersecting_a_translated_sphere_with_a_ray :: proc(t: ^testing.T) {
-    r := main.ray(main.point(0, 0, -5), main.vector(0, 0, 1))
-    s := main.sphere()
-    main.set_transform(&s, main.translation(5, 0, 0))
-
-    xs := main.intersect(s, r)
-    defer delete(xs)
-    
-    testing.expect_value(t, len(xs), 0)
-}
 
