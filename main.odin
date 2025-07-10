@@ -109,11 +109,6 @@ Intersection :: struct {
   object: Object 
 }
 
-Intersections :: struct {
-    count: int,
-    values: [2]f32
-}
-
 point :: proc(x, y, z: f32) -> Point {
     return Point{ x, y, z, 1.0 }
 }
@@ -338,5 +333,29 @@ intersections :: proc(is: ..Intersection) -> []Intersection {
     result := make([]Intersection, len(is))
     copy(result, is)
     return result
+}
+
+hit :: proc(intersections: []Intersection) -> Maybe(Intersection) {
+    if len(intersections) == 0 {
+        return nil
+    }
+
+    lowest := intersections[0]
+    for i in intersections[1:] {
+        if i.t < 0 {
+          continue
+        }
+        if i.t < lowest.t || lowest.t <= 0 {
+            lowest = i
+        }
+    }
+
+    // The hit should be positive
+    // this handles the case where all interesections are negative
+    if lowest.t <= 0 {
+        return nil
+    }
+
+    return lowest
 }
 

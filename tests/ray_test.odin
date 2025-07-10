@@ -119,3 +119,59 @@ intersect_sets_the_object_on_the_intersection :: proc(t: ^testing.T) {
     testing.expect_value(t, xs[1].object, s)
 }
 
+@(test)
+the_hit_when_no_intersections_are_given :: proc(t: ^testing.T) {
+    s := main.sphere()
+    xs := main.intersections()
+    defer delete(xs)
+
+    testing.expect_value(t, main.hit(xs), nil) 
+}
+
+@(test)
+the_hit_when_all_intersections_have_positive_t :: proc(t: ^testing.T) {
+    s := main.sphere()
+    i1 := main.intersection(1, s)
+    i2 := main.intersection(2, s)
+    xs := main.intersections(i1, i2)
+    defer delete(xs)
+
+    testing.expect_value(t, main.hit(xs), i1)
+}
+
+
+@(test)
+the_hit_when_some_intersections_have_negative_t :: proc(t: ^testing.T) {
+    s := main.sphere()
+    i1 := main.intersection(-1, s)
+    i2 := main.intersection(1, s)
+    xs := main.intersections(i1, i2)
+    defer delete(xs)
+
+    testing.expect_value(t, main.hit(xs), i2)
+}
+
+@(test)
+the_hit_when_all_intersections_have_negative_t :: proc(t: ^testing.T) {
+    s := main.sphere()
+    i1 := main.intersection(-2, s)
+    i2 := main.intersection(-1, s)
+    xs := main.intersections(i1, i2)
+    defer delete(xs)
+
+    testing.expect_value(t, main.hit(xs), nil)
+}
+
+@(test)
+the_hit_is_always_the_lowest_nonnegative_intersection :: proc(t: ^testing.T) {
+    s := main.sphere()
+    i1 := main.intersection(5, s)
+    i2 := main.intersection(7, s)
+    i3 := main.intersection(-3, s)
+    i4 := main.intersection(2, s)
+    xs := main.intersections(i1, i2, i3, i4)
+    defer delete(xs)
+
+    testing.expect_value(t, main.hit(xs), i4)
+}
+
