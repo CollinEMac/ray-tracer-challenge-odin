@@ -426,3 +426,7 @@ transform :: proc(r: Ray, m: matrix[4,4]f32) -> Ray {
         multiply_matrix_and_tuple4(m, r.direction)
     )
 }
+
+normal_at :: proc(s: Sphere, p: Point) -> Vector {
+    return norm(subtract(p, point(0, 0, 0)))
+}
