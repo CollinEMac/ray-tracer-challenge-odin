@@ -48,3 +48,22 @@ the_normal_is_a_normalized_vector :: proc(t: ^testing.T) {
     testing.expect(t, helpers.deeply_approx_equal_4(n, main.norm(n)))
 }
 
+@(test)
+computing_the_normal_on_a_translated_sphere :: proc(t: ^testing.T) {
+    s := main.sphere()
+    main.set_transform(&s, main.translation(0, 1, 0))
+    n := main.normal_at(s, main.point(0, 1.70711, -0.70711))
+
+    testing.expect(t, helpers.deeply_approx_equal_4(n, main.vector(0, 0.70711, -0.70711)))
+}
+
+@(test)
+computing_the_normal_on_a_transformed_sphere :: proc(t: ^testing.T) {
+    s := main.sphere()
+    m := main.scaling(1, 0.5, 1) * main.rotation_z(math.PI/5)
+    main.set_transform(&s, m)
+    n := main.normal_at(s, main.point(0, math.sqrt_f32(2)/2, -math.sqrt_f32(2)/2))
+
+    testing.expect(t, helpers.deeply_approx_equal_4(n, main.vector(0, 0.97014, -0.24254)))
+}
+

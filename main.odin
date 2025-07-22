@@ -427,6 +427,10 @@ transform :: proc(r: Ray, m: matrix[4,4]f32) -> Ray {
     )
 }
 
-normal_at :: proc(s: Sphere, p: Point) -> Vector {
-    return norm(subtract(p, point(0, 0, 0)))
+normal_at :: proc(s: Sphere, world_point: Point) -> Vector {
+    object_point := multiply_matrix_and_tuple4(linalg.inverse(s.transform), world_point)
+    object_normal := subtract(object_point, point(0, 0, 0))
+    world_normal := multiply_matrix_and_tuple4(linalg.transpose(linalg.inverse(s.transform)), object_normal)
+    world_normal.w = 0
+    return norm(world_normal)
 }
