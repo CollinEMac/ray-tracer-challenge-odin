@@ -67,3 +67,21 @@ computing_the_normal_on_a_transformed_sphere :: proc(t: ^testing.T) {
     testing.expect(t, helpers.deeply_approx_equal_4(n, main.vector(0, 0.97014, -0.24254)))
 }
 
+@(test)
+reflecting_a_vector_approaching_at_45 :: proc(t: ^testing.T) {
+    v := main.vector(1, -1, 0)
+    n := main.vector(0, 1, 0)
+    r := main.reflect(v, n)
+
+    testing.expect(t, helpers.deeply_approx_equal_4(r, main.vector(1, 1, 0)))
+}
+
+@(test)
+reflecting_a_vector_off_a_slanted_surface :: proc(t: ^testing.T) {
+    v := main.vector(0, -1, 0)
+    n := main.vector(math.sqrt_f32(2)/2, math.sqrt_f32(2)/2, 0)
+    r := main.reflect(v, n)
+
+    testing.expect(t, helpers.deeply_approx_equal_4(r, main.vector(1, 0, 0)))
+}
+

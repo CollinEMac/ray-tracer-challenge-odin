@@ -434,3 +434,7 @@ normal_at :: proc(s: Sphere, world_point: Point) -> Vector {
     world_normal.w = 0
     return norm(world_normal)
 }
+
+reflect :: proc(inc, normal: Vector) -> Vector {
+    return subtract(inc, mult(normal, 2 * dot(inc, normal)))
+}
