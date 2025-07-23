@@ -85,3 +85,47 @@ reflecting_a_vector_off_a_slanted_surface :: proc(t: ^testing.T) {
     testing.expect(t, helpers.deeply_approx_equal_4(r, main.vector(1, 0, 0)))
 }
 
+@(test)
+a_point_light_has_a_position_and_intensity :: proc(t: ^testing.T) {
+    intensity := main.material(main.color(0, 1, 1))
+    position := main.point(0, 0, 0)
+    light := main.point_light(position, intensity)
+
+    testing.expect(t, helpers.deeply_approx_equal_4(light.position, position))
+    testing.expect(t, helpers.deeply_approx_equal(light.intensity.color, intensity.color))
+    testing.expect_value(t, light.intensity.ambient, intensity.ambient)
+    testing.expect_value(t, light.intensity.diffuse, intensity.diffuse)
+    testing.expect_value(t, light.intensity.specular, intensity.specular)
+    testing.expect_value(t, light.intensity.shininess, intensity.shininess)
+}
+
+@(test)
+the_default_material :: proc(t: ^testing.T) {
+    m := main.material()
+
+    testing.expect_value(t, m.color, main.color(1, 1, 1))
+    testing.expect_value(t, m.ambient, 0.1)
+    testing.expect_value(t, m.diffuse, 0.9)
+    testing.expect_value(t, m.specular, 0.9)
+    testing.expect_value(t, m.shininess, 200.0)
+}
+
+@(test)
+a_sphere_has_a_deafult_material :: proc(t: ^testing.T) {
+    s := main.sphere()
+    m := s.material
+
+    testing.expect_value(t, m, main.material())
+}
+
+@(test)
+a_sphere_may_be_assigned_a_material :: proc(t: ^testing.T) {
+    s := main.sphere()
+    m := main.material()
+    m.ambient = 1
+    s.material = m
+
+    testing.expect_value(t, m, s.material)
+    testing.expect_value(t, m, s.material)
+}
+
